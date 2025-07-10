@@ -59,13 +59,15 @@
 .alignLeft {
   transform: translateX(-100%);
   left: -10px;
-  top: 11px
+  top: 11px;
+  margin-right: auto;
 }
 
 .alignRight {
   transform: translateX(100%);
   right: -10px;
-  top: 5px
+  top: 5px;
+  margin-left: auto;
 }
 
 button.alignLeft {
@@ -80,6 +82,22 @@ button.removeStyle {
 
 button.removeStyle:hover {
   background-color: #d9d9d9;
+}
+
+.evacContainer.oneEvac{
+
+}
+
+.evacContainer.twoEvacs{
+
+}
+
+.evacContainer.lower{
+
+}
+
+.evacContainer.upper{
+
 }
 
 .eventContainer{

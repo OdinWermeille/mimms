@@ -409,6 +409,30 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
+                    "className" : "alignRight",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "false;",
+                      "language" : "typescript"
+                    },
+                    "layoutStyle" : {
+                      "padding" : "0",
+                      "width" : "calc((100vw - 150px)*0.75)"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "\"/pictosDashboard/Skull-OpenClipart-Vectors.png\"",
+                      "language" : "TypeScript"
+                    },
+                    "style" : {
+                      "height" : "auto",
+                      "position" : "relative",
+                      "width" : "20px"
+                    }
+                  },
+                  "type" : "Image"
+                }, {
+                  "props" : {
                     "children" : [ {
                       "props" : {
                         "children" : [ {
@@ -489,19 +513,29 @@
                                       "props" : {
                                         "children" : [ {
                                           "props" : {
-                                            "className" : "",
+                                            "children" : [ {
+                                              "props" : {
+                                                "className" : "",
+                                                "layoutStyle" : {
+                                                  "padding" : "0"
+                                                },
+                                                "name" : "Minute display",
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { createMinuteSquare } from \"./statistics/simpleGapMaker\";\ncreateMinuteSquare(Context.time, Context.minuteIncrease.add, Context.state.state[Context.team.id], Context.interface.state);",
+                                                  "language" : "TypeScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            } ],
+                                            "layout" : { },
                                             "layoutStyle" : {
                                               "padding" : "0"
                                             },
-                                            "name" : "Minute display",
-                                            "style" : { },
-                                            "text" : {
-                                              "@class" : "Script",
-                                              "content" : "import { createMinuteSquare } from \"./statistics/simpleGapMaker\";\ncreateMinuteSquare(Context.time, Context.minuteIncrease.add, Context.state.state[Context.team.id], Context.interface.state);",
-                                              "language" : "TypeScript"
-                                            }
+                                            "style" : { }
                                           },
-                                          "type" : "Text"
+                                          "type" : "FlexList"
                                         }, {
                                           "props" : {
                                             "children" : [ {
@@ -563,6 +597,7 @@
                                             "layout" : { },
                                             "layoutClassName" : "eventContainer",
                                             "layoutStyle" : { },
+                                            "name" : "notDisplayed",
                                             "style" : { }
                                           },
                                           "type" : "FlexList"
@@ -1045,8 +1080,7 @@
                     "layoutClassName" : "",
                     "layoutStyle" : {
                       "margin" : "0",
-                      "padding" : "10px",
-                      "width" : "calc(100% + 20px)*0.7"
+                      "padding" : "10px"
                     },
                     "name" : "team",
                     "style" : { }

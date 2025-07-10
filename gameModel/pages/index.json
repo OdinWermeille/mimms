@@ -1,5 +1,5 @@
 {
-  "defaultPageId" : "47",
+  "defaultPageId" : "69",
   "root" : {
     "@class" : "Folder",
     "items" : [ {
@@ -210,6 +210,24 @@
         "name" : "Patient List",
         "scenaristPage" : false,
         "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "62",
+        "name" : "statspage",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "69",
+        "name" : "Dashboard Odin",
+        "scenaristPage" : false,
+        "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "70",
+        "name" : "Dashboard Odin backup",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "TrainerPages"
     }, {
@@ -594,6 +612,12 @@
         "trainerPage" : null
       } ],
       "name" : "mainSimulation pages"
+    }, {
+      "@class" : "Page",
+      "id" : "63",
+      "name" : "stateDemo",
+      "scenaristPage" : null,
+      "trainerPage" : null
     } ],
     "name" : null
   }

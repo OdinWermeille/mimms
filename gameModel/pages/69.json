@@ -1,0 +1,1118 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : {
+              "display" : "none"
+            },
+            "name" : "first loading",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { refresh } from \"./dashboard/dashboardFacade\";\n  refresh(true);\n    '';",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "reload header-button",
+                "icon" : "redo",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'update')",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "reload-container",
+                "layoutStyle" : {
+                  "top" : "-5px"
+                },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { refresh } from \"./dashboard/dashboardFacade\";\nrefresh(false);",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "name" : "update",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "JSON.stringify(Context.interface.state);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ ],
+                                "className" : "legendSquare",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "METHANE",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"METHANE\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "radio",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"radio\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "situation",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"situation\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "Evacs",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"Evacs\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "PlayerMoves",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"PlayerMoves\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "Waiting",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"Waiting\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "Pretriage",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"Pretriage\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "Porter",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"Porter\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "Healing",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"Healing\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "Evacuation",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"Evacuation\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "EVASAN",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"EVASAN\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "LeadPMA",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"LeadPMA\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "pcFront",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"pcFront\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "Nest",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"Nest\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "PC",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"PC\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "PMA",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"PMA\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "ambulance",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"ambulance\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "helicopter",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"helicopter\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "accreg",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"accreg\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "leadpmaArrival",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"leadpmaArrival\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "acsMscArrival",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"acsMscArrival\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "evasanArrival",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"evasanArrival\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "VehicleArrivals",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"VehicleArrivals\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "Other",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"Other\";",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "layout" : { },
+                                "layoutStyle" : {
+                                  "padding" : "0 5px 0 15px"
+                                },
+                                "name" : "Color",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : {
+                                  "padding" : "0"
+                                },
+                                "name" : "Legend",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.category.name",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "exposeAs" : "category",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getCategories } from \"./statistics/legendGen\";\nconst categories = getCategories(Context.interface.state.categories);\ncategories;",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "name",
+                        "layout" : { },
+                        "layoutStyle" : {
+                          "width" : "80%"
+                        },
+                        "name" : "categoryForLegend",
+                        "style" : {
+                          "flex-wrap" : "wrap"
+                        }
+                      },
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "removeStyle",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "  wlog(Context.interface.state.filtersUnfolded)\nContext.interface.state.filtersUnfolded ? \"Affichage▴\" : \"Affichage▾\";",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : {
+                              "padding" : "0"
+                            },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "Context.interface.setState(previousState => (\n  { ...previousState, filtersUnfolded : !previousState.filtersUnfolded }\n))",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "toggleFilters",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "removeStyle",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "const categoryName : string = Context.category.name;\n`${categoryName} ${Context.interface.state.categories[categoryName] ? \"✓\" : \"\"}`;",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "Context.interface.setState(previousState => (\n  { ...previousState, categories : {\n      ...previousState.categories,\n      [Context.category.name] : !previousState.categories[Context.category.name]\n    } \n  }\n))",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "toggleCategory",
+                                "style" : {
+                                  "align-items" : "end",
+                                  "height" : "30px",
+                                  "margin" : "0"
+                                }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "overlay",
+                            "exposeAs" : "category",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "const categories = Context.interface.state.categories;\nObject.entries(categories).map(([name, isActive]) => ({ name, isActive }));",
+                              "language" : "TypeScript"
+                            },
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "!Context.interface.state.filtersUnfolded;",
+                              "language" : "typescript"
+                            },
+                            "itemKey" : "name",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : {
+                              "padding" : "0"
+                            },
+                            "name" : "categoryForFilters",
+                            "style" : {
+                              "white-space" : "nowrap",
+                              "width" : "13em"
+                            }
+                          },
+                          "type" : "For each"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : {
+                          "width" : "20%"
+                        },
+                        "style" : {
+                          "left" : "20%",
+                          "position" : "absolute",
+                          "z-index" : "3"
+                        }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "row"
+                    },
+                    "layoutStyle" : {
+                      "width" : "75%"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "alignLeft removeStyle",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "Context.interface.state.teamsUnfolded[Context.team.id] ? Context.team.name +  \"▴\" : Context.team.name +  \"▾\";",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "Context.interface.setState(previousState => (\n  {...previousState, teamsUnfolded: {\n    ...previousState.teamsUnfolded,\n    [Context.team.id]: !previousState.teamsUnfolded[Context.team.id],\n  },\n}));",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "Team name",
+                            "style" : {
+                              "position" : "absolute"
+                            }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "layoutClassName" : "alignRight",
+                            "layoutStyle" : {
+                              "position" : "absolute"
+                            },
+                            "name" : "Mortality rate",
+                            "style" : {
+                              "font-size" : "1.7em"
+                            },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTargetExecutionContext } from \"./game/gameExecutionContextController\";\nimport { getMortalityRate, getUniqueEvent } from \"./statistics/helpers\";\n  getUniqueEvent(getTargetExecutionContext(Context.team.id)?.getCurrentState()?.getInternalStateObject(), \"define-ambulance-park-title\")\ngetMortalityRate(getTargetExecutionContext(Context.team.id)?.getCurrentState()?.getInternalStateObject()) + \"%\";",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "stayIn",
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "true;",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutClassName" : "stayIn",
+                                    "layoutStyle" : { },
+                                    "name" : "TeamData",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getCategorisedEvents } from \"./statistics/helpers\";\nimport { statsLogger } from \"./tools/logger\";\n//return JSON.stringify(Context.state.state[Context.team.id]);\n  statsLogger.error(getCategorisedEvents(Context.state.state[Context.team.id], Context.interface.state.categories));\nJSON.stringify(getCategorisedEvents(Context.state.state[Context.team.id], Context.interface.state.categories));",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "",
+                                "layout" : { },
+                                "layoutClassName" : "hline",
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "className" : "",
+                                            "layoutStyle" : {
+                                              "padding" : "0"
+                                            },
+                                            "name" : "Minute display",
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "import { createMinuteSquare } from \"./statistics/simpleGapMaker\";\ncreateMinuteSquare(Context.time, Context.minuteIncrease.add, Context.state.state[Context.team.id], Context.interface.state);",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "children" : [ ],
+                                                    "className" : "eventSquare METHANE",
+                                                    "layout" : { },
+                                                    "layoutStyle" : {
+                                                      "padding" : "0"
+                                                    },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                } ],
+                                                "className" : "",
+                                                "exposeAs" : "square",
+                                                "getItemsFn" : {
+                                                  "@class" : "Script",
+                                                  "content" : "[{number: 1}, {number: 2}, {number: 3}, {number: 4}, {number: 5}, {number: 6}, {number: 7}, {number: 8}, {number: 9}, {number: 10}, {number: 11}, {number: 12}]",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "itemKey" : "number",
+                                                "layout" : { },
+                                                "layoutStyle" : {
+                                                  "padding" : "0"
+                                                },
+                                                "name" : "twelfth",
+                                                "style" : {
+                                                  "padding" : "0 12px 0 0"
+                                                }
+                                              },
+                                              "type" : "For each"
+                                            } ],
+                                            "className" : "",
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Inside",
+                                              "className" : "last",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "(Context.minuteIncrease.add + Context.time.minute) === Context.time.lastMinute;",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Inside",
+                                              "className" : "onFive",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "(Context.time.minute + Context.minunteIncrease.add) % 5 === 0;",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "(Context.minuteIncrease.add + Context.time.minute) > Context.time.lastMinute;",
+                                              "language" : "typescript"
+                                            },
+                                            "layout" : { },
+                                            "layoutClassName" : "eventContainer",
+                                            "layoutStyle" : { },
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        } ],
+                                        "className" : "minutesContainer",
+                                        "exposeAs" : "minuteIncrease",
+                                        "getItemsFn" : {
+                                          "@class" : "Script",
+                                          "content" : "[{add : 0}, {add : 1}, {add : 2}, {add : 3}, {add : 4}]",
+                                          "language" : "TypeScript"
+                                        },
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "false;",
+                                          "language" : "typescript"
+                                        },
+                                        "itemKey" : "add",
+                                        "layout" : { },
+                                        "layoutClassName" : "",
+                                        "layoutStyle" : {
+                                          "padding" : "0px",
+                                          "width" : "100%"
+                                        },
+                                        "name" : "oneMinute",
+                                        "style" : {
+                                          "padding" : "0px",
+                                          "width" : "100%"
+                                        }
+                                      },
+                                      "type" : "For each"
+                                    }, {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ ],
+                                                "className" : "vline",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "last",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { getTeamsContext } from \"./dashboard/utils\";\nimport { isLastTimeline } from \"./statistics/analysisDashboard\";\nisLastTimeline(getTeamsContext(), Context.team.id, Context.interface.state.teamsUnfolded);",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "layout" : {
+                                                  "flexDirection" : "column"
+                                                },
+                                                "layoutStyle" : {
+                                                  "padding" : "11.5px 11.5px 5px 11.5px"
+                                                },
+                                                "name" : "Vertical line",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getTeamsContext } from \"./dashboard/utils\";\nimport { isLastTimeline } from \"./statistics/analysisDashboard\";\n!isLastTimeline(getTeamsContext(), Context.team.id, Context.interface.state.teamsUnfolded);",
+                                                  "language" : "typescript"
+                                                },
+                                                "layoutStyle" : {
+                                                  "padding" : "0px"
+                                                },
+                                                "name" : "Time",
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "JSON.stringify(Context.time.minute)",
+                                                  "language" : "TypeScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            } ],
+                                            "className" : "",
+                                            "layout" : {
+                                              "alignItems" : "center",
+                                              "flexDirection" : "column",
+                                              "justifyContent" : "space-between"
+                                            },
+                                            "layoutStyle" : {
+                                              "padding" : "0px"
+                                            },
+                                            "name" : "Positioner",
+                                            "style" : {
+                                              "padding" : "0px",
+                                              "width" : "100%"
+                                            }
+                                          },
+                                          "type" : "FlexList"
+                                        } ],
+                                        "layout" : { },
+                                        "layoutStyle" : {
+                                          "padding" : "0px"
+                                        },
+                                        "style" : {
+                                          "padding" : "0px"
+                                        }
+                                      },
+                                      "type" : "FlexList"
+                                    } ],
+                                    "className" : "",
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : {
+                                      "padding" : "0px"
+                                    },
+                                    "style" : {
+                                      "padding" : "0px"
+                                    }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "className" : "stayIn",
+                                "exposeAs" : "time",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "import { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { getTimeArray } from \"./statistics/helpers\";\nconst teamData : MainStateObject[] = Object.values(Context.state.state);\nconst timeArray = getTimeArray(Object.values(teamData));\ntimeArray;",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "minute",
+                                "layout" : { },
+                                "layoutStyle" : {
+                                  "margin" : "-18px auto",
+                                  "padding" : "0px",
+                                  "width" : "100%"
+                                },
+                                "name" : "fiveMins",
+                                "style" : {
+                                  "justify-content" : "space-between"
+                                }
+                              },
+                              "type" : "For each"
+                            } ],
+                            "className" : "stayIn",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "false;",
+                              "language" : "typescript"
+                            },
+                            "id" : "",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutClassName" : "stayIn",
+                            "layoutStyle" : {
+                              "padding" : "0"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "alignLeft",
+                                    "layoutStyle" : { },
+                                    "name" : "Role",
+                                    "style" : {
+                                      "position" : "absolute"
+                                    },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.role.role",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "stayIn",
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "false;",
+                                          "language" : "typescript"
+                                        },
+                                        "layoutClassName" : "stayIn",
+                                        "layoutStyle" : { },
+                                        "name" : "TeamData",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "//return JSON.stringify(Context.state.state[Context.team.id]);\n// return JSON.stringify(getCategorisedEvents(Context.state.state[Context.team.id], [\"Roles\", \"Posts\", \"COMMS\", \"METHANE\"]));\n  '';",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "className" : "",
+                                    "layout" : { },
+                                    "layoutClassName" : "hline",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "className" : "",
+                                                "layoutStyle" : {
+                                                  "padding" : "0"
+                                                },
+                                                "name" : "Minute display",
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { createMinuteSquare } from \"./statistics/simpleGapMaker\";\ncreateMinuteSquare(Context.time, Context.minuteIncrease.add, Context.state.state[Context.team.id], Context.interface.state, Context.role.role);",
+                                                  "language" : "TypeScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            }, {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "children" : [ ],
+                                                        "className" : "eventSquare METHANE",
+                                                        "layout" : { },
+                                                        "layoutStyle" : {
+                                                          "padding" : "0"
+                                                        },
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "FlexList"
+                                                    } ],
+                                                    "className" : "",
+                                                    "exposeAs" : "square",
+                                                    "getItemsFn" : {
+                                                      "@class" : "Script",
+                                                      "content" : "[{number: 1}, {number: 2}, {number: 3}, {number: 4}, {number: 5}, {number: 6}, {number: 7}, {number: 8}, {number: 9}, {number: 10}, {number: 11}, {number: 12}]",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "itemKey" : "number",
+                                                    "layout" : { },
+                                                    "layoutStyle" : {
+                                                      "padding" : "0"
+                                                    },
+                                                    "name" : "twelfths",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "For each"
+                                                } ],
+                                                "className" : "eventContainer",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "last",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "(Context.minuteIncrease.add + Context.time.minute) === Context.time.lastMinute;",
+                                                    "language" : "typescript"
+                                                  }
+                                                }, {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "onFive",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "Context.time.minute % 5 === 0;",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "(Context.minuteIncrease.add + Context.time.minute) > Context.time.lastMinute;",
+                                                  "language" : "typescript"
+                                                },
+                                                "layout" : { },
+                                                "layoutClassName" : "eventContainer",
+                                                "layoutStyle" : { },
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            } ],
+                                            "className" : "minutesContainer",
+                                            "exposeAs" : "minuteIncrease",
+                                            "getItemsFn" : {
+                                              "@class" : "Script",
+                                              "content" : "[{add : 0}, {add : 1}, {add : 2}, {add : 3}, {add : 4}]",
+                                              "language" : "TypeScript"
+                                            },
+                                            "itemKey" : "add",
+                                            "layout" : { },
+                                            "layoutClassName" : "",
+                                            "layoutStyle" : {
+                                              "justify-content" : "space-between",
+                                              "padding" : "0px",
+                                              "width" : "100%"
+                                            },
+                                            "name" : "oneMinute",
+                                            "style" : {
+                                              "padding" : "0px",
+                                              "width" : "100%"
+                                            }
+                                          },
+                                          "type" : "For each"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "children" : [ ],
+                                                    "className" : "vline",
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "last",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { getTeamsContext } from \"./dashboard/utils\";\nimport { isLastRoleInLastTimeline } from \"./statistics/analysisDashboard\";\nisLastRoleInLastTimeline(getTeamsContext(), Context.team.id, Context.interface.state.teamsUnfolded, Context.role);",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
+                                                    "layout" : {
+                                                      "flexDirection" : "column"
+                                                    },
+                                                    "layoutStyle" : {
+                                                      "padding" : "11.5px 11.5px 5px 11.5px"
+                                                    },
+                                                    "name" : "Vertical line",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                }, {
+                                                  "props" : {
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getTeamsContext } from \"./dashboard/utils\";\nimport { isLastRoleInLastTimeline } from \"./statistics/analysisDashboard\";\n!isLastRoleInLastTimeline(getTeamsContext(), Context.team.id, Context.interface.state.teamsUnfolded, Context.role);",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "layoutStyle" : {
+                                                      "margin-top" : "15px",
+                                                      "padding" : "0px"
+                                                    },
+                                                    "name" : "Time",
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "JSON.stringify(Context.time.minute)",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                } ],
+                                                "className" : "",
+                                                "layout" : {
+                                                  "alignItems" : "center",
+                                                  "flexDirection" : "column",
+                                                  "justifyContent" : "space-between"
+                                                },
+                                                "layoutStyle" : {
+                                                  "padding" : "0px"
+                                                },
+                                                "style" : {
+                                                  "padding" : "0px",
+                                                  "width" : "100%"
+                                                }
+                                              },
+                                              "type" : "FlexList"
+                                            } ],
+                                            "layout" : { },
+                                            "layoutStyle" : {
+                                              "padding" : "0px"
+                                            },
+                                            "style" : {
+                                              "padding" : "0px"
+                                            }
+                                          },
+                                          "type" : "FlexList"
+                                        } ],
+                                        "className" : "",
+                                        "layout" : {
+                                          "flexDirection" : "column"
+                                        },
+                                        "layoutClassName" : "",
+                                        "layoutStyle" : {
+                                          "padding" : "0px"
+                                        },
+                                        "style" : {
+                                          "padding" : "0px"
+                                        }
+                                      },
+                                      "type" : "FlexList"
+                                    } ],
+                                    "className" : "stayIn",
+                                    "exposeAs" : "time",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { getTimeArray } from \"./statistics/helpers\";\nconst teamData : MainStateObject[] = Object.values(Context.state.state);\nconst timeArray = getTimeArray(Object.values(teamData));\ntimeArray;",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "minute",
+                                    "layout" : { },
+                                    "layoutStyle" : {
+                                      "margin" : "-18px auto",
+                                      "padding" : "0px",
+                                      "width" : "100%"
+                                    },
+                                    "name" : "fiveMins",
+                                    "style" : {
+                                      "justify-content" : "space-between"
+                                    }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "className" : "stayIn",
+                                "id" : "",
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutClassName" : "stayIn",
+                                "layoutStyle" : {
+                                  "padding" : "0"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "exposeAs" : "role",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "  return[{role : \"AL\"}, {role : \"ACS\"}, {role : \"MCS\"}, {role : \"LeadPMA\"}, {role : \"EVASAN\"}]",
+                              "language" : "TypeScript"
+                            },
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "!Context.interface.state.teamsUnfolded[Context.team.id];",
+                              "language" : "typescript"
+                            },
+                            "itemKey" : "role",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : {
+                              "padding" : "0"
+                            },
+                            "name" : "role",
+                            "style" : {
+                              "padding" : "0"
+                            }
+                          },
+                          "type" : "For each"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : {
+                          "padding" : "0"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "stayIn",
+                    "exposeAs" : "team",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getTeamsContext } from \"./dashboard/utils\";\nimport { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { getTargetExecutionContext } from \"./game/gameExecutionContextController\";\nimport { statsLogger } from \"./tools/logger\";\n//return [{id : 1}, {id : 2}, {id : 3}];\nconst teams : {id : number, name : string, state : MainStateObject | undefined}[] = [];\ngetTeamsContext().forEach(team => {\n  teams.push({ id : team.id, name : team.name, state : getTargetExecutionContext(team.id)?.getCurrentState()?.passingInternalStateBreaksIt })\n});\n  statsLogger.error(teams);\nteams;",
+                      "language" : "TypeScript"
+                    },
+                    "id" : "teamsContainer",
+                    "itemKey" : "id",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "",
+                    "layoutStyle" : {
+                      "margin" : "0",
+                      "padding" : "10px",
+                      "width" : "calc(100% + 20px)*0.7"
+                    },
+                    "name" : "team",
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                } ],
+                "exposeAs" : "interface",
+                "id" : "categories",
+                "initialState" : {
+                  "@class" : "Script",
+                  "content" : "import { createDashboardState } from \"./statistics/analysisDashboard\";\n(createDashboardState());",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : {
+                  "align-items" : "center",
+                  "flex-direction" : "column",
+                  "padding" : "0px",
+                  "width" : "100%"
+                },
+                "localState" : true,
+                "name" : "interface",
+                "style" : { }
+              },
+              "type" : "State"
+            } ],
+            "className" : "",
+            "id" : "",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "stayIn",
+            "layoutStyle" : { },
+            "style" : {
+              "width" : "100%"
+            }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "",
+        "exposeAs" : "state",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "({});",
+          "language" : "TypeScript"
+        },
+        "layoutClassName" : "stayIn noPadding",
+        "layoutStyle" : {
+          "width" : "100%"
+        },
+        "localState" : true,
+        "name" : "State",
+        "style" : { }
+      },
+      "type" : "State"
+    } ],
+    "className" : "stayIn",
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

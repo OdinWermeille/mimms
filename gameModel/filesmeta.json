@@ -641,6 +641,30 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/pictosDashboard/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/pictosDashboard/Ambulance-Odin_Wermeille.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/pictosDashboard/Helicopter-Vincent_Le_Moign.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/pictosDashboard/Skull-OpenClipart-Vectors.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/translations/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",

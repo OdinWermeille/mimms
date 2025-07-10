@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1744702329294,
+  "createdTime" : 1752141099635,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -834,14 +834,14 @@
       "name" : "containers_config",
       "properties" : {
         "02rPhE80Uw" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":5,\"travelTime\":5,\"name\":\"SMUR-001\",\"type\":\"SMUR\"},\"index\":30}",
-        "0GJxqNtdmk" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":0,\"travelTime\":50,\"name\":\"Heli-001\",\"type\":\"Helico\"},\"index\":22}",
+        "0GJxqNtdmk" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":0,\"travelTime\":0,\"name\":\"Heli-001\",\"type\":\"Helico\"},\"index\":22}",
         "0H7wBYaaHY" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":15,\"travelTime\":30,\"name\":\"VD-003\",\"type\":\"AMB-U\"},\"index\":16}",
         "0siGpSh02h" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":0,\"travelTime\":5,\"name\":\"GE-003\",\"type\":\"AMB-U\"},\"index\":11}",
         "11mWaxVKvS" : "{\"mandatory\":true,\"payload\":{\"availabilityTime\":0,\"travelTime\":10,\"name\":\"PC-001\",\"type\":\"PC\"},\"index\":27}",
         "1ZTZSLpLNX" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":25,\"travelTime\":5,\"name\":\"GE-013\",\"type\":\"AMB-I\"},\"index\":6}",
         "2eQtFPOJZY" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":5,\"travelTime\":5,\"name\":\"GE-005\",\"type\":\"AMB-I\"},\"index\":3}",
         "3uSAZWIlgM" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":0,\"travelTime\":5,\"name\":\"GE-001\",\"type\":\"AMB-U\"},\"index\":10}",
-        "5KDjMWZajD" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":0,\"travelTime\":15,\"name\":\"Heli-002\",\"type\":\"Helico\"},\"index\":23}",
+        "5KDjMWZajD" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":0,\"travelTime\":0,\"name\":\"Heli-002\",\"type\":\"Helico\"},\"index\":23}",
         "6v1Z9ARVLb" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":20,\"travelTime\":5,\"name\":\"GE-008\",\"type\":\"AMB-I\"},\"index\":4}",
         "7fcZzC1aeX" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":30,\"travelTime\":5,\"name\":\"GE-014\",\"type\":\"AMB-U\"},\"index\":20}",
         "ALzBzcjDUX" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":5,\"travelTime\":5,\"name\":\"GE-004\",\"type\":\"AMB-U\"},\"index\":12}",
@@ -6362,6 +6362,51 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "stateDemo",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2275301:l8Kgjv",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "statistics/analysisDashboard",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2276851:SeZqpN",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "statistics/helpers",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2241368:KhqPWQ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "statistics/legendGen",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2360512:oLbFqo",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "statistics/simpleGapMaker",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2301207:89WMag",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "tools/CustomForms",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6654,6 +6699,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1174013:wQfVhP",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/MIMMS/dashboardOdin",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:2276556:B4O0Gn",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7080,7 +7134,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - dev XGO MIM-414",
+  "name" : "MIMMS - Release Pretri 4.0.2 Odin FOREACH & STATE DEMO (Fix)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

@@ -1,0 +1,106 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "!Context.x.state.okButtonActive;",
+              "language" : "typescript"
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Other button</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "'Button'",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "Context.x.setState({okButtonActive: false, whatever: 12})",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  wlog(Context.x.state);\n  JSON.stringify(Context.x.state);",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  Context.item.value + \" \" + Context.x.state.whatever;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ]
+              },
+              "type" : "FlexList"
+            } ],
+            "exposeAs" : "item",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getForeachList } from \"./stateDemo\";\n  getForeachList();",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "id",
+            "layout" : { },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "For each"
+        } ],
+        "exposeAs" : "x",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "import { getInitialState } from \"./stateDemo\";\ngetInitialState();",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localState" : true,
+        "name" : "x",
+        "style" : { }
+      },
+      "type" : "State"
+    } ],
+    "layout" : {
+      "flexDirection" : "row"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

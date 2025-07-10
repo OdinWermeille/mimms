@@ -65,7 +65,7 @@ export function getHospitalsByProximity(
 
   ids.forEach(hospId => {
     const hospProximity = result[hospId]?.proximity;
-    if (hospProximity == undefined || proximity.valueOf() < hospProximity) {
+    if (hospProximity == undefined || proximity?.valueOf() < hospProximity) {
       delete result[hospId];
     }
   });

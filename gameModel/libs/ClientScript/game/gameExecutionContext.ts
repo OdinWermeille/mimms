@@ -109,6 +109,9 @@ export class GameExecutionContext {
         mainSimLogger.warn(
           'Likely due to a TimeForwardEvent that has jumped over an existing event => BUG'
         );
+        const newState = new MainSimulationState(currentState.getInternalStateObject(), event.id);
+        this.updateCurrentState(newState);
+        this.processedEvents[event.id] = event;
         return;
       } else if (event.payload.triggerTime > now) {
         mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);

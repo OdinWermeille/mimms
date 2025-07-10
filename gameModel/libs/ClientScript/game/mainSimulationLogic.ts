@@ -96,6 +96,11 @@ function tryLoadTemplates(): void {
   }
 }
 
+export function getTemplateFromId(id: TemplateId) : ActionTemplateBase{
+  tryLoadTemplates();
+  return actionTemplates[id];
+}
+
 /**
  * converts a global event to local events and enqueue them for later evaluation
  * @param event a received global event

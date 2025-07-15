@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1752150169975,
+  "createdTime" : 1752560720856,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6402,6 +6402,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2301207:89WMag",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "statistics/teamDataWorkaround",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2368501:fE9AJl",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

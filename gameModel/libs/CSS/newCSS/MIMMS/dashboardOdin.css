@@ -84,20 +84,41 @@ button.removeStyle:hover {
   background-color: #d9d9d9;
 }
 
-.evacContainer.oneEvac{
+.evacContainer{
+  position: absolute;
+  height: 15px;
+  border: 1px solid #313131;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  z-index: 5;
+}
 
+.evacContainer.oneEvac{
+  width: 26px;
 }
 
 .evacContainer.twoEvacs{
-
+  width: 52px;
 }
 
 .evacContainer.lower{
 
 }
 
-.evacContainer.upper{
+.evacContainer.upper {
+  transform: translateY(-15px) translateX(29px) rotate(-22.5deg);
+  transform-origin: left center;
+}
 
+.evacLine {
+  width: 20px;
+  padding: 0;
+  border-top: 1px solid #313131;
+  position: absolute;
+  top: 50%;
+  right: 100%;
 }
 
 .eventContainer{

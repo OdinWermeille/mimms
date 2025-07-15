@@ -393,7 +393,7 @@
                         "style" : {
                           "left" : "20%",
                           "position" : "absolute",
-                          "z-index" : "3"
+                          "z-index" : "99"
                         }
                       },
                       "type" : "FlexList"
@@ -514,6 +514,140 @@
                                         "children" : [ {
                                           "props" : {
                                             "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "children" : [ ],
+                                                        "className" : "evacLine",
+                                                        "layout" : { },
+                                                        "layoutClassName" : "",
+                                                        "layoutStyle" : {
+                                                          "padding" : "0"
+                                                        },
+                                                        "name" : "Evac line",
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "FlexList"
+                                                    }, {
+                                                      "props" : {
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "!nbrHelicopter;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "layoutStyle" : { },
+                                                        "name" : "Helicopter one",
+                                                        "script" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"/pictosDashboard/Helicopter-Vincent_Le_Moign.png\"",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "style" : {
+                                                          "height" : "auto",
+                                                          "width" : "15px",
+                                                          "z-index" : "4"
+                                                        }
+                                                      },
+                                                      "type" : "Image"
+                                                    }, {
+                                                      "props" : {
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "nbrElicopter < 2;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "layoutStyle" : { },
+                                                        "name" : "Helicopter two",
+                                                        "script" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"/pictosDashboard/Helicopter-Vincent_Le_Moign.png\"",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "style" : {
+                                                          "height" : "auto",
+                                                          "width" : "15px",
+                                                          "z-index" : "4"
+                                                        }
+                                                      },
+                                                      "type" : "Image"
+                                                    }, {
+                                                      "props" : {
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "!nbrAmbulance;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "layoutStyle" : { },
+                                                        "name" : "Ambulance one",
+                                                        "script" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"/pictosDashboard/Ambulance-Odin_Wermeille.png\"",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "style" : {
+                                                          "height" : "auto",
+                                                          "width" : "15px",
+                                                          "z-index" : "4"
+                                                        }
+                                                      },
+                                                      "type" : "Image"
+                                                    }, {
+                                                      "props" : {
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "nbrAmbulance < 2;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "layoutStyle" : { },
+                                                        "name" : "Ambulance two",
+                                                        "script" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"/pictosDashboard/Ambulance-Odin_Wermeille.png\"",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "style" : {
+                                                          "height" : "auto",
+                                                          "width" : "15px",
+                                                          "z-index" : "4"
+                                                        }
+                                                      },
+                                                      "type" : "Image"
+                                                    } ],
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "!Context.interface.state.categories.Evacs||\n!Context.nbrEvacs.nbrEvacs;",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "layout" : { },
+                                                    "layoutClassName" : "evacContainer oneEvac upper",
+                                                    "layoutStyle" : {
+                                                      "padding" : "0"
+                                                    },
+                                                    "name" : "Evac container",
+                                                    "style" : {
+                                                      "position" : "absolute"
+                                                    }
+                                                  },
+                                                  "type" : "FlexList"
+                                                } ],
+                                                "exposeAs" : "nbrEvacs",
+                                                "id" : "nbrEvacs",
+                                                "initialState" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { ActionBase } from \"./game/common/actions/actionBase\";\nimport { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { statsLogger } from \"./tools/logger\";\n  const teamState : MainStateObject = Context.team.state;\nconst evacs : ActionBase[] = teamState.actions.filter(action => action.actionNameKey === \"evacuate-title\" && action.startTime / 60 === (Context.time.minute + Context.minuteIncrease.add));\nconst evacsData = {\n    nbrEvacs : evacs.length,\n    /*nbrAmbulanceEvacs : getAmbulanceEvacs(teamState, evacs).length,\n    nbrHelicopterEvacs : getHelicopterEvacs(teamState, evacs).length*/ };\n  statsLogger.error(\"evacs data :\", evacsData);\n  evacsData;",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "layoutStyle" : {
+                                                  "padding" : "0"
+                                                },
+                                                "localState" : false,
+                                                "name" : "number of Evacs",
+                                                "style" : { }
+                                              },
+                                              "type" : "State"
+                                            }, {
                                               "props" : {
                                                 "className" : "",
                                                 "layoutStyle" : {
@@ -1069,7 +1203,7 @@
                     "exposeAs" : "team",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getTeamsContext } from \"./dashboard/utils\";\nimport { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { getTargetExecutionContext } from \"./game/gameExecutionContextController\";\nimport { statsLogger } from \"./tools/logger\";\n//return [{id : 1}, {id : 2}, {id : 3}];\nconst teams : {id : number, name : string, state : MainStateObject | undefined}[] = [];\ngetTeamsContext().forEach(team => {\n  teams.push({ id : team.id, name : team.name, state : getTargetExecutionContext(team.id)?.getCurrentState()?.passingInternalStateBreaksIt })\n});\n  statsLogger.error(teams);\nteams;",
+                      "content" : "import { getTeamsContext } from \"./dashboard/utils\";\nimport { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { getTeamState } from \"./statistics/teamDataWorkaround\";\nimport { statsLogger } from \"./tools/logger\";\n//return [{id : 1}, {id : 2}, {id : 3}];\nconst teams : {id : number, name : string, state : MainStateObject}[] = [];\ngetTeamsContext().forEach(team => {\n  teams.push({ id : team.id, name : team.name, state : getTeamState(team.id) })\n});\nstatsLogger.error(\"teams :\", teams);\nteams;",
                       "language" : "TypeScript"
                     },
                     "id" : "teamsContainer",

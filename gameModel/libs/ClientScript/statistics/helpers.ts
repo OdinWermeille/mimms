@@ -1,8 +1,6 @@
 import { ActionBase } from "../game/common/actions/actionBase";
 import { RadioMessage } from "../game/common/radio/radioMessage";
 import { MainStateObject } from "../game/common/simulationState/mainSimulationState";
-import { getTemplateFromId } from "../game/mainSimulationLogic";
-import { statsLogger } from "../tools/logger";
 
 // import { getTeamsContext } from '../dashboard/utils';
 // import { getTargetExecutionContext } from '../game/gameExecutionContextController';
@@ -15,24 +13,30 @@ import { statsLogger } from "../tools/logger";
 
 // Events
 
-export type Role = "AL" | "ACS" | "MCS" | "EVASAN" | "LEADPMA" | "LeadPMA";
-export type Category = "METHANE" | "Comms" | "Evacs" | "PlayerMoves" | "Orders" | "Roles" | "Posts" | "Announcements" | "VehicleArrivals" | "Other";
-export type Event = RadioMessage | ActionBase;
+export type Role = "AL" | "ACS" | "MCS" | "EVASAN" | "LEADPMA" | "LeadPMA" | "All";
+export type MainCategory = "METHANE" | "Comms" | "Evacs" | "PlayerMoves" | "Orders" | "Roles" | "Posts" | "Announcements" | "VehicleArrivals" | "Other";
+export type Category = "METHANE" | "OpenComms" | "SentMessages" | "ReceivedMessages" | "Situation" | "AmbulanceEvacs" | "HelicopterEvacs" | "PlayerMoves" | "WaitingOrders" | "PretriageOrders" | "PorterOrders" | "LeadPMARole" | "EVASANRole" | "PcFrontPost" | "NestPost" | "AmbulancePost" | "HelicopterPost" | "AccregPost" | "PMAPost" | "PCPost" | "AcsMscArrivalAnnouncement" | "EvasanArrivalAnnouncement" | "LeadpmaArrivalAnnouncement" | "AmbulanceArrivals" | "HelicopterArrivals" | "SmurArrivals" | "Other";
+export type Event = { startTime : number, duration : number, ownerId : number };
+export type CategorisedEventList = { category : Category, events : Event[] }
 
-function getEventList(state : MainStateObject) {
+function getSimplifiedAction(action : ActionBase) : Event{
+  return { startTime : action.startTime / 60, duration : action.durationSec / 60, ownerId : action.ownerId }
+}
+
+function getSimplifiedMessage(message : RadioMessage, correspondant : "sender" | "recipient") : Event | undefined {
+  const correspondantId = correspondant === "sender" ? message.senderId : message.recipientId;
+  return correspondantId ? { startTime : message.timeStamp / 60, duration : 1, ownerId : correspondantId} : undefined
+}
+
+function getActionList(state : MainStateObject) {
   return state.actions;
 }
 
-function logEventCategory(event) {
-  statsLogger.error("template :", getTemplateFromId(event.templateId));
-}
-
 export function getUniqueEvent(state : MainStateObject, actionNameKey : string) {
-    const events = getEventList(state);
-    const event = events.find(event => event.actionNameKey === actionNameKey);
+    const actions = getActionList(state);
+    const action = actions.find(action => action.actionNameKey === actionNameKey);
     wlog("in getUniqueEvent");
-    logEventCategory(event);
-    return event;
+    return action;
 }
 
 function getOwnerId(state : MainStateObject, role : Role) {
@@ -63,9 +67,9 @@ function getCreatorRole(state : MainStateObject, role : Role) {
 }
 
 function getRoleEvents(state : MainStateObject, role : Role) {
-    const events = getEventList(state);
+    const actions = getActionList(state);
     const roleId = getOwnerId(state, role);
-    return events.filter(event => event.ownerId === roleId);
+    return actions.filter(action => action.ownerId === roleId);
 }
 
 function getALPositions(state : MainStateObject, time : number = 0) {
@@ -175,91 +179,224 @@ export function getActorsPositions(state : MainStateObject, time : number = 0, r
     return actorsPositions;
 }
 
-export function getMETHANE(state : MainStateObject) {
-    const events = getEventList(state);
-    const methaneEvent = events?.find(event => event.casuMessagePayload?.messageType === "METHANE");
-    return methaneEvent ? [methaneEvent] : [];
+export function getMETHANE(state : MainStateObject) /*: CategorisedEventList[]*/ {
+    const actions = getActionList(state);
+    const methane : CategorisedEventList[] = []
+
+    const methaneEvents : Event[] = [];
+    actions.filter(action => action.casuMessagePayload?.messageType === "METHANE").forEach(action => methaneEvents.push(getSimplifiedAction(action)));
+    methane.push({ category : "METHANE", events : methaneEvents });
+
+    // return methane
+/*x*/    const event = actions.filter(action => action.casuMessagePayload?.messageType === "METHANE");
+/*x*/    return event;
+    /* return methaneEvent ? [{ category : "METHANE" , events : [getSimplifiedAction(methaneEvent)] }] : []*/
 }
 
-function getComms(state : MainStateObject) {
-    const events = getEventList(state);
-    const comms = [];
-    events.filter(event => event.actionNameKey === "situation-update-title").forEach(event => comms.push(event));
-    events.filter(event => event.actionNameKey === "activate-radio-schema-title").forEach(event => comms.push(event));
-    comms.push(state.radioMessages.filter(message => message.isRadioMessage));
+function getComms(state : MainStateObject) /*: CategorisedEventList[]*/ {
+    const actions = getActionList(state);
+    const comms /*: CategorisedEventList[]*/ = [];
+
+    const situationEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "situation-update-title").forEach(action => comms.push(action)/*situationEvents.push(getSimplifiedAction(event))*/);
+    // comms.push({ category : "Situation" , events : situationEvents});
+
+    const openCommsEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "activate-radio-schema-title").forEach(action => comms.push(action)/*openCommsEvents.push(getSimplifiedAction(event))*/);
+    // comms.push({ category : "OpenComms", events : openCommsEvents })
+
+    const sentMessagesEvents : Event[] = [];
+    const receivedMessagesEvents : Event[] = [];
+    state.radioMessages.filter(message => message.isRadioMessage).forEach(message =>  {
+      const simplifiedSentMessage = getSimplifiedMessage(message, "sender");
+      simplifiedSentMessage && sentMessagesEvents.push(simplifiedSentMessage);
+    }); 
+    state.radioMessages.filter(message => message.isRadioMessage).forEach(message =>  {
+      const simplifiedRecievedMessage = getSimplifiedMessage(message, "recipient");
+      simplifiedRecievedMessage && receivedMessagesEvents.push(simplifiedRecievedMessage);
+    });
+    // comms.push({ category : "SentMessages", events : sentMessagesEvents })
+    // comms.push({ category : "ReceivedMessages", events : receivedMessagesEvents})
+
+    state.radioMessages.filter(message => message.isRadioMessage).forEach(message => comms.push(message)));
+
     return comms
 }
 
-function getEvacs(state : MainStateObject) {
-    const events = getEventList(state);
-    return events.filter(event => event.actionNameKey === "evacuate-title");
+function getEvacs(state : MainStateObject) /*: CategorisedEventList[]*/ {
+    const actions = getActionList(state);
+    const evacs : CategorisedEventList[] = [];
+
+    const ambulanceEvacsEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "evacuate-title").forEach(action => ambulanceEvacsEvents.push(getSimplifiedAction(action)));
+    // evacs.push({ category : "AmbulanceEvacs", events : ambulanceEvacsEvents });
+
+    const helicopterEvacsEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "evacuate-title").forEach(action => helicopterEvacsEvents.push(getSimplifiedAction(action)));
+    // evacs.push({ category : "HelicopterEvacs", events : helicopterEvacsEvents });
+
+    // return evacs;
+/*x*/return actions.filter(action => action.actionNameKey === "evacuate-title");
 }
 
-function getPlayerMoves(state : MainStateObject) {
-    const events = getEventList(state);
-    return events.filter(event => event.actionNameKey === "move-actor-title");
+function getPlayerMoves(state : MainStateObject) /*: CategorisedEventList[]*/ {
+    const actions = getActionList(state);
+    const playerMoves : CategorisedEventList[] = [];
+
+    const playerMovesEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "move-actor-title").forEach(action => playerMovesEvents.push(getSimplifiedAction(action)));
+    playerMoves.push({ category : "PlayerMoves", events : playerMovesEvents });
+
+    // return playerMoves;
+/*x*/return actions.filter(action => action.actionNameKey === "move-actor-title");
 }
 
-function getOrders(state : MainStateObject) {
-    const events = getEventList(state);
-    return events.filter(event => event.actionNameKey === "move-res-task-title");
+function getOrders(state : MainStateObject) /*: CategorisedEventList[]*/ {
+    const actions = getActionList(state);
+    const orders : CategorisedEventList[] = [];
+
+    const waitingOrdersEvents : Event[] = [];
+    // actions.filter(action => isWaitingOrder(action, state)).forEach(action => waitingOrdersEvents.push(getSimplifiedAction(action)));
+    // orders.push({ category : "WaitingOrders", events : waitingOrdersEvents })
+
+    const pretriageOrdersEvents : Event[] = [];
+    // actions.filter(action => isPretriageOrder(action, state)).forEach(action => pretriageOrdersEvents.push(getSimplifiedAction(action)));
+    // orders.push({ category : "PretriageOrders", events : pretriageOrdersEvents })
+
+    const porterOrdersEvents : Event[] = [];
+    // actions.filter(action => isPorterOrder(action, state)).forEach(action => porterOrdersEvents.push(getSimplifiedAction(action)));
+    // orders.push({ category : "PorterOrders", events : porterOrdersEvents })
+
+    // return orders
+/*x*/return actions.filter(action => action.actionNameKey === "move-res-task-title");
 }
 
-function getRoles(state : MainStateObject) {
-    const events = getEventList(state);
-    return events.filter(event => event.actionNameKey.split("-")[0] === "appoint")
+function getRoles(state : MainStateObject) /*: CategorisedEventList[]*/ {
+    const actions = getActionList(state);
+    const roles : CategorisedEventList[] = [];
+
+    const leadPmaRoleEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "appoint-LeadPMA-title").forEach(action => leadPmaRoleEvents.push(getSimplifiedAction(action)));
+    // roles.push({ category : "LeadPMARole", events : leadPmaRoleEvents })
+
+    const evasanRoleEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "appoint-EVASAN-title").forEach(action => evasanRoleEvents.push(getSimplifiedAction(action)));
+    // roles.push({ category : "EVASANRole", events : evasanRoleEvents })
+
+    // return roles
+/*x*/return actions.filter(action => action.actionNameKey.split("-")[0] === "appoint")
 }
 
-function getPosts(state : MainStateObject) {
-    const events = getEventList(state);
-    return events.filter(event => event.actionNameKey.split("-")[0] === "define" && !event.actionNameKey.includes("Arrival"));
+function getPosts(state : MainStateObject) /*: CategorisedEventList[]*/ {
+    const actions = getActionList(state);
+    const posts : CategorisedEventList[] = [];
+
+    const pcFrontPostEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "define-pcFront-title").forEach(action => pcFrontPostEvents.push(getSimplifiedAction(action)));
+    // posts.push({ category : "PcFrontPost", events : pcFrontPostEvents });
+    
+    const nestPostEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "define-Nest-title").forEach(action => nestPostEvents.push(getSimplifiedAction(action)));
+    // posts.push({ category : "NestPost", events : nestPostEvents });
+    
+    const ambulancePostEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "define-ambulance-park-title").forEach(action => ambulancePostEvents.push(getSimplifiedAction(action)));
+    // posts.push({ category : "AmbulancePost", events : ambulancePostEvents });
+
+    const helicopterPostEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "define-helicopter-park-title").forEach(action => helicopterPostEvents.push(getSimplifiedAction(action)));
+    // posts.push({ category : "HelicopterPost", events : helicopterPostEvents });
+    
+    const accregPostEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "define-accreg-title").forEach(action => accregPostEvents.push(getSimplifiedAction(action)));
+    // posts.push({ category : "AccregPost", events : accregPostEvents });
+    
+    const pmaPostEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "define-PMA-title").forEach(action => pmaPostEvents.push(getSimplifiedAction(action)));
+    // posts.push({ category : "PMAPost", events : pmaPostEvents });
+    
+    const pcPostEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "define-PC-title").forEach(action => pcPostEvents.push(getSimplifiedAction(action)));
+    // posts.push({ category : "PCPost", events : pcPostEvents });
+    
+    // return posts
+/*x*/return actions.filter(action => action.actionNameKey.split("-")[0] === "define" && !action.actionNameKey.includes("Arrival"));
 }
 
-function getAnnouncements(state : MainStateObject) {
-    const events = getEventList(state);
-    return events.filter(event => event.actionNameKey.split("-")[0] === "define" && event.actionNameKey.includes("Arrival"));
+function getAnnouncements(state : MainStateObject) /*: CategorisedEventList[]*/ {
+    const actions = getActionList(state);
+    const announcements : CategorisedEventList[] = [];
+
+    const acsMscArrivalAnnouncementEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "define-acsMscArrival-title").forEach(action => acsMscArrivalAnnouncementEvents.push(getSimplifiedAction(action)));
+    // announcements.push({ category : "AcsMscArrivalAnnouncement", events : acsMscArrivalAnnouncementEvents })
+    
+    const evasanArrivalAnnouncementEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "define-evasanArrival-title").forEach(action => evasanArrivalAnnouncementEvents.push(getSimplifiedAction(action)));
+    // announcements.push({ category : "EvasanArrivalAnnouncement", events : evasanArrivalAnnouncementEvents })
+    
+    const leadpmaArrivalAnnouncementEvents : Event[] = [];
+    actions.filter(action => action.actionNameKey === "define-leadpmaArrival-title").forEach(action => leadpmaArrivalAnnouncementEvents.push(getSimplifiedAction(action)));
+    // announcements.push({ category : "LeadpmaArrivalAnnouncement", events : leadpmaArrivalAnnouncementEvents })
+    
+    // return announcements
+/*x*/return actions.filter(action => action.actionNameKey.split("-")[0] === "define" && action.actionNameKey.includes("Arrival"));
 }
 
-function getVehicleArrivals(state : MainStateObject) : [string, RadioMessage[]][] {
-    const vehiclesInfos =  state.radioMessages;
-    const vehicleArrivals : [string, RadioMessage[]][] = [];
-    vehicleArrivals.push(["SMUR", vehiclesInfos.filter(info => info.message === "Arrivée de 1 ambulancier, 1 medecinJunior")]);
-    vehicleArrivals.push(["Ambulance", vehiclesInfos.filter(info => info.message === "Arrivée de 2 ambulancier")]);
-    vehicleArrivals.push(["Helicopter", vehiclesInfos.filter(info => info.message === "Arrivée de 1 ambulancier, 1 medecinSenior")]);
+function getVehicleArrivals(state : MainStateObject) : [string, RadioMessage[]][] /*: CategorisedEventList[]*/ {
+    const messages =  state.radioMessages;
+/*x*/const vehicleArrivals : [string, RadioMessage[]][] = [];
+    // const vehicleArrivals : CategorisedEventList[] = [];
+
+    // const ambulanceArrivalsEvents : Event[] = [];
+    // messages.filter(message => message.message === "Arrivée de 2 ambulancier").forEach(message => ambulanceArrivalsEvents.push(getSimplifiedMessage(message)))
+
+    // const helicopterArrivalsEvents : Event[] = [];
+    // messages.filter(message => message.message === "Arrivée de 1 ambulancier, 1 medecinSenior").forEach(message => helicopterArrivalsEvents.push(getSimplifiedMessage(message)))
+
+    // const smurArrivalsEvents : Event[] = [];
+    // messages.filter(message => message.message === "Arrivée de 1 ambulancier, 1 medecinJunior")
+
+
+/*x*/vehicleArrivals.push(["SMUR", messages.filter(message => message.message === "Arrivée de 1 ambulancier, 1 medecinJunior")]);
+/*x*/vehicleArrivals.push(["Ambulance", messages.filter(message => message.message === "Arrivée de 2 ambulancier")]);
+/*x*/vehicleArrivals.push(["Helicopter", messages.filter(message => message.message === "Arrivée de 1 ambulancier, 1 medecinSenior")]);
     return vehicleArrivals;
 }
 
-function getOther(state : MainStateObject) {
-    const [...events] = getEventList(state);
+/*x*/function getOther(state : MainStateObject) /*: CategorisedEventList[]*/ {
+    const [...actions] = getActionList(state);
     const otherCategories = ["METHANE", "Comms", "Evacs", "PlayerMoves", "Orders", "Roles", "Posts", "Announcements", "VehicleArrivals"];
     const categorizedEvents = getCategorisedEvents(state, otherCategories)
-    categorizedEvents.push(["CommEvents", events.filter(event => event.actionNameKey === "casu-message-title")])
+    categorizedEvents.push(["CommEvents", actions.filter(action => action.actionNameKey === "casu-message-title")])
     categorizedEvents.forEach(categoryEvents => {
         if (categoryEvents[0] === 'METHANE') {
-            events.splice(events.indexOf(categoryEvents[1]), 1);
+            actions.splice(actions.indexOf(categoryEvents[1]), 1);
         }else{
             categoryEvents[1].forEach(event => {
-                events.splice(events.indexOf(event), 1);
+                actions.splice(actions.indexOf(event), 1);
             });
         }
     });
-    return events;
+    return actions;
 }
 
-function getCategoryEvents(state : MainStateObject, category : Category) : ActionBase[] | RadioMessage[][] | [string, RadioMessage[]][] {
-    if (!["METHANE", "Comms", "Evacs", "PlayerMoves", "Orders", "Roles", "Posts", "Announcements", "VehicleArrivals", "Other"].includes(category)) return [];
+function getCategoryEvents(state : MainStateObject, category : MainCategory) : ActionBase[] | RadioMessage[][] | [string, RadioMessage[]][] {
+    if (!["METHANE", "Comms", "Evacs", "PlayerMoves", "Orders", "Roles", "Posts", "Announcements", "VehicleArrivals"/*x*/, "Other"/*x*/].includes(category)) return [];
     const functionCaller = { METHANE: getMETHANE, Comms: getComms, Evacs: getEvacs, PlayerMoves: getPlayerMoves, Orders: getOrders, Roles: getRoles, Posts: getPosts, Announcements: getAnnouncements, VehicleArrivals: getVehicleArrivals, Other: getOther };
     return functionCaller[category](state)
 }
 
 
-export function getCategorisedEvents(state : MainStateObject, categories : { [key in Category]: boolean } | "ALL") : [Category, ActionBase[] | RadioMessage[][] | [string, RadioMessage[]][]][] {
+export function getCategorisedEvents(state : MainStateObject, categories : { [key in MainCategory]: boolean } | "ALL") : [MainCategory, ActionBase[] | RadioMessage[][] | [string, RadioMessage[]][]][] {
     if (categories === "ALL") return getAllCategorisedEvents(state);
 
-    const categorisedEvents : [Category, ActionBase[] | RadioMessage[][] | [string, RadioMessage[]][]][] = [];
+/*x*/const categorisedEvents : [MainCategory, ActionBase[] | RadioMessage[][] | [string, RadioMessage[]][]][] = [];
+    // const categorisedEvents : CategorisedEventList[] = [];
     Object.entries(categories).forEach(([category, isEnabled]) => {
       if (isEnabled) {
-        categorisedEvents.push([category as Category, getCategoryEvents(state, category as Category)]);
+        // getCategoryEvents(state, category as MainCategory).forEach(subcategoryEvents => categorisedEvents.push(subcategoryEvents));
+/*x*/   categorisedEvents.push([category as MainCategory, getCategoryEvents(state, category as MainCategory)]);
       }
     });
     return categorisedEvents;

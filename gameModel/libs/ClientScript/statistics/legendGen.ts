@@ -77,5 +77,5 @@ export function getCategories(categories: { [key in Category]: boolean }) {
 }
 
 export function getTitle(name : string) {
-  return name[0].toUpperCase()
+  return name[0].toUpperCase() + name.slice(1);
 }

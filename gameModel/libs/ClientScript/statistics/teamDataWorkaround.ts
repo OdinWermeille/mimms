@@ -1,13 +1,13 @@
-import { ActionBase } from "../game/common/actions/actionBase";
+import { MainStateObject } from "../game/common/simulationState/mainSimulationState";
 import { getTargetExecutionContext } from "../game/gameExecutionContextController";
 
-export function getTeamState(teamId : number) : ActionBase[] {
+export function getTeamState(teamId : number) : MainStateObject | undefined {
   const mainState = getTargetExecutionContext(teamId)?.getCurrentState();
-  if (!mainState) return [];
+  if (!mainState) return undefined;
 
   const state = mainState.getInternalStateObject();
 
-  const stateWithoutMethods = JSON.parse(JSON.stringify(state));
+  const stateWithoutMethods : MainStateObject = JSON.parse(JSON.stringify(state));
 
   return stateWithoutMethods;
 };

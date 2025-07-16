@@ -15,6 +15,10 @@
   border-left: 1px dashed #313131;
 }
 
+.vline.notLastTeam {
+  height: 50px;
+}
+
 .vline.last {
   height: 0px;
 }
@@ -108,7 +112,7 @@ button.removeStyle:hover {
 }
 
 .evacContainer.upper {
-  transform: translateY(-15px) translateX(29px) rotate(-22.5deg);
+  transform: translateY(-15px) translateX(23px) rotate(-22.5deg);
   transform-origin: left center;
 }
 
@@ -126,12 +130,12 @@ button.removeStyle:hover {
   margin-right: 12px;
   padding: 0;
   height: 18px;
-  width: 24px;
+  width: 12px;
   z-index: 2;
 }
 
 .eventContainer[style*="--minutes-count"]{
-  margin-right: calc(((100vw - 150px)*0.7 - 32px - 24px * var(--minutes-count)) / (var(--minutes-count) - 1));
+  margin-right: calc(((100vw - 150px)*0.7 - 32px - 12px * var(--minutes-count)) / (var(--minutes-count) - 1));
 }
 
 .eventContainer.last{
@@ -140,44 +144,42 @@ button.removeStyle:hover {
 
 .eventSquare {
   height: 18px;
-  width: 2px;
+  width: 1px;
   z-index: 2;
   background-color: #c0c0c0;
 }
 
-.eventSquare.METHANE { background-color: #E7241A; }
+.eventSquare.METHANE  { background-color: #E7241A; }
 
-.eventSquare.Comms.situation  { background-color: #4FC3F7; }
-.eventSquare.Comms.radio      { background-color: #0288D1; }
+.eventSquare.OpenComms        { background-color: #9EDBF8; }
+.eventSquare.Situation        { background-color: #64B9E7; }
+.eventSquare.SentMessages     { background-color: #1893D4; }
+.eventSquare.ReceivedMessages { background-color: #408AB2; }
 
-.eventSquare.Orders.Waiting     { background-color: #BDC6F5; }
-.eventSquare.Orders.Pretriage   { background-color: #97A3F3; }
-.eventSquare.Orders.Porter      { background-color: #5C6BC0; }
-.eventSquare.Orders.Healing     { background-color: #2F44B7; }
-.eventSquare.Orders.Evacuation  { background-color: #4A07AF; }
+.eventSquare.WaitingOrders     { background-color: #BDC6F5; }
+.eventSquare.PretriageOrders   { background-color: #97A3F3; }
+.eventSquare.PorterOrders      { background-color: #5C6BC0; }
 
-.eventSquare.Roles.EVASAN    { background-color: #26A69A; }
-.eventSquare.Roles.LeadPMA   { background-color: #004D40; }
+.eventSquare.LeadPMARole    { background-color: #26B2A4; }
+.eventSquare.EVASANRole     { background-color: #057C68; }
 
-.eventSquare.Posts.pcFront     { background-color: #FFF534; }
-.eventSquare.Posts.Nest        { background-color: #EAAC47; }
-.eventSquare.Posts.PC          { background-color: #F47B47; }
-.eventSquare.Posts.PMA         { background-color: #FAF09D; }
-.eventSquare.Posts.ambulance   { background-color: #FFD54F; }
-.eventSquare.Posts.helicopter  { background-color: #FF9428; }
-.eventSquare.Posts.accreg      { background-color: #FFB300; }
+.eventSquare.PcFrontPost     { background-color: #FFF534; }
+.eventSquare.NestPost        { background-color: #b67918; }
+.eventSquare.PCPost          { background-color: #F47B47; }
+.eventSquare.PMAPost         { background-color: #FAF09D; }
+.eventSquare.AmbulancePost   { background-color: #FFD54F; }
+.eventSquare.HelicopterPost  { background-color: #FF9428; }
+.eventSquare.AccregPost      { background-color: #FFB300; }
 
-.eventSquare.Announcements.leadpmaArrival { background-color: #CE93D8; }
-.eventSquare.Announcements.acsMscArrival  { background-color: #BA68C8; }
-.eventSquare.Announcements.evasanArrival  { background-color: #AB47BC; }
+.eventSquare.LeadpmaArrivalAnnouncement { background-color: #CE93D8; }
+.eventSquare.AcsMscArrivalAnnouncement  { background-color: #BA68C8; }
+.eventSquare.EvasanArrivalAnnouncement  { background-color: #AB47BC; }
 
-.eventSquare.Evacs { background-color: #8EFFAC; }
+.eventSquare.AmbulanceArrivals  { background-color: #EAB1E5; }
+.eventSquare.HelicopterArrivals { background-color: #FAD9F7; }
+.eventSquare.SmurArrivals       { background-color: #FD7AF2; }
 
 .eventSquare.PlayerMoves { background-color: #F504B3; }
-
-.eventSquare.VehicleArrivals { background-color: #EAB1E5; }
-
-.eventSquare.Other { background-color: #C56D16; }
 
 
 .legendSquare {
@@ -189,33 +191,40 @@ button.removeStyle:hover {
 
 .legendSquare.METHANE { background-color: #E7241A; }
 
-.legendSquare.situation { background-color: #4FC3F7; }
-.legendSquare.radio     { background-color: #0288D1; }
+.legendSquare.OpenComms        { background-color: #9EDBF8; }
+.legendSquare.Situation        { background-color: #64B9E7; }
+.legendSquare.SentMessages     { background-color: #1893D4; }
+.legendSquare.ReceivedMessages { background-color: #408AB2; }
 
-.legendSquare.Waiting     { background-color: #BDC6F5; }
-.legendSquare.Pretriage   { background-color: #97A3F3; }
-.legendSquare.Porter      { background-color: #5C6BC0; }
-.legendSquare.Healing     { background-color: #2F44B7; }
-.legendSquare.Evacuation  { background-color: #4A07AF; }
+.legendSquare.WaitingOrders     { background-color: #BDC6F5; }
+.legendSquare.PretriageOrders   { background-color: #97A3F3; }
+.legendSquare.PorterOrders      { background-color: #5C6BC0; }
 
-.legendSquare.EVASAN  { background-color: #26A69A; }
-.legendSquare.LeadPMA { background-color: #004D40; }
+.legendSquare.LeadPMARole  { background-color: #26B2A4; }
+.legendSquare.EVASANRole   { background-color: #057C68; }
 
-.legendSquare.pcFront     { background-color: #FFF534; }
-.legendSquare.Nest        { background-color: #EAAC47; }
-.legendSquare.PC          { background-color: #F47B47; }
-.legendSquare.PMA         { background-color: #FAF09D; }
-.legendSquare.ambulance   { background-color: #FFD54F; }
-.legendSquare.helicopter  { background-color: #FF9428; }
-.legendSquare.accreg      { background-color: #FFB300; }
+.legendSquare.PcFrontPost     { background-color: #FFF534; }
+.legendSquare.NestPost        { background-color: #b67918; }
+.legendSquare.PCPost          { background-color: #F47B47; }
+.legendSquare.PMAPost         { background-color: #FAF09D; }
+.legendSquare.AmbulancePost   { background-color: #FFD54F; }
+.legendSquare.HelicopterPost  { background-color: #FF9428; }
+.legendSquare.AccregPost      { background-color: #FFB300; }
 
-.legendSquare.leadpmaArrival  { background-color: #CE93D8; }
-.legendSquare.acsMscArrival   { background-color: #BA68C8; }
-.legendSquare.evasanArrival   { background-color: #AB47BC; }
+.legendSquare.LeadpmaArrivalAnnouncement { background-color: #CE93D8; }
+.legendSquare.AcsMscArrivalAnnouncement  { background-color: #BA68C8; }
+.legendSquare.EvasanArrivalAnnouncement  { background-color: #AB47BC; }
 
-.legendSquare.Evacs { background-color: #8EFFAC; }
+.legendSquare.AmbulanceArrivals   { background-color: #EAB1E5; }
+.legendSquare.HelicopterArrivals  { background-color: #FAD9F7; }
+.legendSquare.SmurArrivals        { background-color: #FD7AF2; }
 
 .legendSquare.PlayerMoves { background-color: #F504B3; }
 
-.legendSquare.VehicleArrivals { background-color: #EAB1E5; }
-.legendSquare.Other { background-color: #C56D16; }
+.legendIcon {
+  width: 12px;
+  height: auto;
+  position: absolute;
+  top: 5px;
+  left: 15px;
+}

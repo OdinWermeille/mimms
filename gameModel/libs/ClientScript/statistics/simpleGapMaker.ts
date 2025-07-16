@@ -1,69 +1,25 @@
-import { ActionBase } from '../game/common/actions/actionBase';
 import { MainStateObject } from '../game/common/simulationState/mainSimulationState';
 import { AnalysisDashboardState } from './analysisDashboard';
 import { Category, Role, Event, CategorisedEventList, getCategorisedEvents, getOwnerRole } from './helpers';
 
-/*x*/export function getCommsClass(event: ActionBase): string {
-  if (event.actionNameKey && event.actionNameKey.includes('situation')) return 'situation';
-  return 'radio';
-}
-
-/*x*/export function getOrdersClass(event: ActionBase, state: MainStateObject): string {
-  const targetTaskId = event.targetTaskId;
-  const task = state.tasks.find(task => task.Uid === targetTaskId);
-  return task.taskType;
-}
-
-/*x*/export function getRolesClass(event: ActionBase): string {
-  //returns role thanks to appoint-role-title formatting
-  return event.actionNameKey.split('-')[1];
-}
-
-/*x*/export function getPostsClass(event: ActionBase): string {
-  //returns post thanks to define-post-title formatting
-  return event.actionNameKey.split('-')[1];
-}
-
-/*x*/export function getAnnouncementsClass(event: ActionBase): string {
-  //returns announcement thanks to define-announcement-title formatting
-  return event.actionNameKey.split('-')[1];
-}
-
 function getStyleClass(
   twelfth: number,
-  events: /*x*/[Category, string, ActionBase][],
-  // events: [Category, Event][]
-/*x*/state: MainStateObject
+  events: [Category, Event][]
 ): string {
   if (!events.length) return '';
   const index = Math.floor(twelfth / (12 / events.length));
-  const [category, role, event] = events[index];
-  //calling a function to figure out what class should be returned when a category contains sub-categories
-  // return category
-/*x*/switch (category) {
-    case 'Comms':
-      return `` + category + ` ` + getCommsClass(event) + ``;
-    case 'Orders':
-      return `` + category + ` ` + getOrdersClass(event, state) + ``;
-    case 'Roles':
-      return `` + category + ` ` + getRolesClass(event) + ``;
-    case 'Posts':
-      return `` + category + ` ` + getPostsClass(event) + ``;
-    case 'Announcements':
-      return `` + category + ` ` + getAnnouncementsClass(event) + ``;
-    default:
-      return category;
-  }
+  const [category, event] = events[index];
+  return category
 }
 
-function createTwelfths(events: [string, string, ActionBase][], state: MainStateObject): string {
+function createTwelfths(events: [Category, Event][]): string {
   let twelfths = '';
   for (let twelfth = 0; twelfth < 12; twelfth++) {
     twelfths +=
       `
           <div style="display: flex; position: relative; padding: 0px;">
             <div class="eventSquare ` +
-      getStyleClass(twelfth, events, state) +
+      getStyleClass(twelfth, events) +
       `" style="display: flex; flex: 1 1 auto;"></div>
           </div>`;
   }
@@ -72,35 +28,23 @@ function createTwelfths(events: [string, string, ActionBase][], state: MainState
 
 function getMinuteState(
   minute: number,
-/*x*/  state: [Category, ActionBase[]][],
-  // events: CategorisedEventList[], 
+  eventList: CategorisedEventList[], 
   mainState: MainStateObject,
   role: Role
-): [string, string, ActionBase][] {
-  const events: [Category, string, ActionBase][] = [];
-/*x*/state.forEach(([categoryName, eventList]) => {
-    if (eventList.length > 0) {
-      eventList.forEach(event => {
-        if (event.startTime === minute * 60 || event.timeStamp === minute * 60) {
-          const ownerRole = getOwnerRole(mainState, event.ownerId);
-          if (role === 'All' || ownerRole === role) {
-            events.push([categoryName, getOwnerRole(mainState, event.ownerId), event]);
-          }
-        }
-      });
-    }
-  });
-  /* events.forEach(categorisedEvents => {
-    if(!categorisedEvents.events.length) return
+): [Category, Event][] {
+  const events: [Category, Event][] = [];
+
+  eventList.forEach(categorisedEvents => {
+    if(!categorisedEvents.events.length || categorisedEvents.category === "AmbulanceEvacs" || categorisedEvents.category === "HelicopterEvacs") return
     categorisedEvents.events.forEach(event => {
       if (event.startTime === minute) {
         const ownerRole = getOwnerRole(mainState, event.ownerId);
-        if (role === 'All' || ownerRole === role) {
-          events.push([categoriseEvents.category, event]);
+        if (ownerRole !== "CASU" && role === 'All' || ownerRole === role) {
+          events.push([categorisedEvents.category, event]);
         }
       }
     })
-  })*/
+  })
 
   return events;
 }
@@ -131,7 +75,7 @@ export function createMinuteSquare(
     state,
     role
   );
-  minuteSquare += createTwelfths(events, state);
+  minuteSquare += createTwelfths(events);
   minuteSquare += `
         </div>
       </div>

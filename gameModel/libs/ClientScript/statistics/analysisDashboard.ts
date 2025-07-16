@@ -1,6 +1,7 @@
 import { getTeamsContext } from '../dashboard/utils';
+import { MainCategory } from './helpers';
 
-function getInitialShownCategories() {
+function getInitialShownCategories() : { [Key in MainCategory] : boolean } {
   return {
     METHANE: true,
     Comms: false,
@@ -11,14 +12,13 @@ function getInitialShownCategories() {
     Posts: true,
     Announcements: false,
     VehicleArrivals: false,
-    Other: false,
   };
 }
 
 function getInitialTeamsUnfolded(): TeamsUnfolded {
   const initialTeamsUnfolded: TeamsUnfolded = {};
   getTeamsContext().forEach(team => {
-    initialTeamsUnfolded[team.id] = true;
+    initialTeamsUnfolded[team.id] = false;
   });
   return initialTeamsUnfolded;
 }
@@ -42,7 +42,6 @@ export interface AnalysisDashboardState {
     Posts: boolean;
     Announcements: boolean;
     VehicleArrivals: boolean;
-    Other: boolean;
   };
   teamsUnfolded: TeamsUnfolded;
   filtersUnfolded: boolean;

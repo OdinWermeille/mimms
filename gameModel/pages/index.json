@@ -227,7 +227,7 @@
         "id" : "70",
         "name" : "Dashboard Odin backup",
         "scenaristPage" : null,
-        "trainerPage" : null
+        "trainerPage" : false
       } ],
       "name" : "TrainerPages"
     }, {

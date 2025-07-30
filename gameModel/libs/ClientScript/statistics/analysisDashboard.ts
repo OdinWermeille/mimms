@@ -1,5 +1,5 @@
 import { getTeamsContext } from '../dashboard/utils';
-import { MainCategory } from './helpers';
+import { MainCategory, Role } from './helpers';
 
 function getInitialShownCategories() : { [Key in MainCategory] : boolean } {
   return {
@@ -45,6 +45,7 @@ export interface AnalysisDashboardState {
   };
   teamsUnfolded: TeamsUnfolded;
   filtersUnfolded: boolean;
+  overlayShown: { minute: number, teamId: number, role: string };
 }
 
 export function createDashboardState(): AnalysisDashboardState {
@@ -52,23 +53,38 @@ export function createDashboardState(): AnalysisDashboardState {
     categories: getInitialShownCategories(),
     teamsUnfolded: getInitialTeamsUnfolded(),
     filtersUnfolded: getInitialFiltersUnfolded(),
+    overlayShown: { minute: -1, teamId: -1, role: "" },
   };
 }
 
 export function isLastTimeline(
   teams: { id: number; name: string }[],
   teamId: number,
-  teamsUnfolded: TeamsUnfolded
+  teamsUnfolded: TeamsUnfolded,
 ): boolean {
-  return teams[teams.length - 1].id === teamId && !teamsUnfolded[teamId];
+  return teams[teams.length - 1]?.id === teamId && !teamsUnfolded[teamId];
 }
 
 export function isLastRoleInLastTimeline(
   teams: { id: number; name: string }[],
   teamId: number,
   teamsUnfolded: TeamsUnfolded,
-  role: { role: string }
+  role: { role: Role }
 ): boolean {
-  if (!(teams[teams.length - 1].id === teamId && teamsUnfolded[teamId])) return false;
+  if (!(teams[teams.length - 1]?.id === teamId && teamsUnfolded[teamId])) return false;
   return role.role === 'EVASAN';
+};
+
+export function isLastTimelineInNotLastTeam(
+  teams: { id: number; name: string }[],
+  teamId: number,
+  teamsUnfolded: TeamsUnfolded,
+  role: { role: Role } = { role: "All" },
+): boolean {
+  if(teams[teams.length - 1]?.id === teamId) return false;
+  let isLastTimeline = false;
+  teamsUnfolded[teamId] ? 
+  isLastTimeline = role.role === "EVASAN" : 
+  isLastTimeline = true;
+  return isLastTimeline;
 }

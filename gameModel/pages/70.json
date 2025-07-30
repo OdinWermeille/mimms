@@ -29,7 +29,8 @@
                 },
                 "layoutClassName" : "reload-container",
                 "layoutStyle" : {
-                  "top" : "-5px"
+                  "top" : "-5px",
+                  "z-index" : "100"
                 },
                 "localScriptEval" : {
                   "script" : {
@@ -47,27 +48,51 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "JSON.stringify(Context.interface.state);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
                     "children" : [ {
                       "props" : {
                         "children" : [ {
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "legendIcon",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "redLegendN",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"AmbulanceEvacs\"||\nContext.category.name === \"HelicopterEvacs\";",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "greenLegendN",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.category.name === \"AmbulanceArrivals\"||\nContext.category.name === \"HelicopterArrivals\"||\nContext.category.name === \"SmurArrivals\";",
+                                    "language" : "typescript"
+                                  }
+                                } ],
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "Context.category.name !== \"AmbulanceEvacs\";",
+                                  "content" : "!(Context.category.name === \"AmbulanceEvacs\" || Context.category.name === \"HelicopterEvacs\" || Context.category.name === \"AmbulanceArrivals\" || Context.category.name === \"HelicopterArrivals\" || Context.category.name === \"SmurArrivals\");",
+                                  "language" : "typescript"
+                                },
+                                "layoutStyle" : {
+                                  "padding" : "0"
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"n\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "legendIcon evac",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.category.name !== \"AmbulanceEvacs\"&&\nContext.category.name !== \"AmbulanceArrivals\";",
                                   "language" : "typescript"
                                 },
                                 "layoutClassName" : "",
@@ -85,10 +110,10 @@
                               "type" : "Image"
                             }, {
                               "props" : {
-                                "className" : "legendIcon",
+                                "className" : "legendIcon evac",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "Context.category.name !== \"HelicopterEvacs\";",
+                                  "content" : "Context.category.name !== \"HelicopterEvacs\"&&\nContext.category.name !== \"HelicopterArrivals\";",
                                   "language" : "typescript"
                                 },
                                 "layoutStyle" : {
@@ -98,6 +123,26 @@
                                 "script" : {
                                   "@class" : "Script",
                                   "content" : "\"/pictosDashboard/Helicopter-Vincent_Le_Moign.png\"",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Image"
+                            }, {
+                              "props" : {
+                                "className" : "legendIcon evac",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.category.name !== \"SmurArrivals\";",
+                                  "language" : "typescript"
+                                },
+                                "layoutStyle" : {
+                                  "padding" : "0"
+                                },
+                                "name" : "SMUR",
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "\"/pictosDashboard/Car-Andriy_Makukha.png\"",
                                   "language" : "TypeScript"
                                 },
                                 "style" : { }
@@ -277,26 +322,10 @@
                                   }
                                 }, {
                                   "applyOn" : "Inside",
-                                  "className" : "AmbulanceArrivals",
+                                  "className" : "outlined",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "Context.category.name === \"AmbulanceArrivals\";",
-                                    "language" : "typescript"
-                                  }
-                                }, {
-                                  "applyOn" : "Inside",
-                                  "className" : "HelicopterArrivals",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "Context.category.name === \"HelicopterArrivals\";",
-                                    "language" : "typescript"
-                                  }
-                                }, {
-                                  "applyOn" : "Inside",
-                                  "className" : "SmurArrivals",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "Context.category.name === \"SmurArrivals\";",
+                                    "content" : "Context.category.name !== \"AmbulanceEvacs\" && Context.category.name !== \"HelicopterEvacs\" && Context.category.name !== \"AmbulanceArrivals\" && Context.category.name !== \"HelicopterArrivals\" && Context.category.name !== \"SmurArrivals\";",
                                     "language" : "typescript"
                                   }
                                 } ],
@@ -350,12 +379,13 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "removeStyle",
+                            "className" : "removeStyle clickable",
                             "label" : {
                               "@class" : "Script",
                               "content" : "Context.interface.state.filtersUnfolded ? \"Affichage▴\" : \"Affichage▾\";",
                               "language" : "TypeScript"
                             },
+                            "layoutClassName" : "clickable",
                             "layoutStyle" : {
                               "padding" : "0"
                             },
@@ -431,6 +461,7 @@
                         "layoutStyle" : {
                           "width" : "20%"
                         },
+                        "name" : "Positioner",
                         "style" : {
                           "left" : "20%",
                           "position" : "absolute",
@@ -445,6 +476,7 @@
                     "layoutStyle" : {
                       "width" : "75%"
                     },
+                    "name" : "Legend",
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -458,8 +490,9 @@
                     },
                     "layoutStyle" : {
                       "padding" : "0",
-                      "width" : "calc((100vw - 150px)*0.75)"
+                      "width" : "calc(72vw - 30px)"
                     },
+                    "name" : "Skull",
                     "script" : {
                       "@class" : "Script",
                       "content" : "\"/pictosDashboard/Skull-OpenClipart-Vectors.png\"",
@@ -478,12 +511,13 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "alignLeft removeStyle",
+                            "className" : "alignLeft removeStyle clickable",
                             "label" : {
                               "@class" : "Script",
                               "content" : "Context.interface.state.teamsUnfolded[Context.team.id] ? Context.team.name +  \"▴\" : Context.team.name +  \"▾\";",
                               "language" : "TypeScript"
                             },
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
@@ -494,6 +528,7 @@
                             },
                             "name" : "Team name",
                             "style" : {
+                              "font-weight" : "bold",
                               "position" : "absolute"
                             }
                           },
@@ -506,11 +541,11 @@
                             },
                             "name" : "Mortality rate",
                             "style" : {
-                              "font-size" : "1.7em"
+                              "font-size" : "1.5em"
                             },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getMortalityRate } from \"./statistics/helpers\";\ngetMortalityRate(Context.team.state) + \"%\";",
+                              "content" : "// import { getTargetExecutionContext } from \"./game/gameExecutionContextController\";\nimport { countDeadPatients, countPatients, getMortalityRate } from \"./statistics/helpers\";\n// wlog(\"Processed events :\", getTargetExecutionContext(Context.team.id)?.getLocalEventManager().getProcessedEvents());\ncountDeadPatients(Context.team.state) + \"/\" + countPatients(Context.team.state) + \" (\" + getMortalityRate(Context.team.state) + \"%)\";",
                               "language" : "TypeScript"
                             }
                           },
@@ -519,30 +554,12 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "className" : "stayIn",
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "true;",
-                                      "language" : "typescript"
-                                    },
-                                    "layoutClassName" : "stayIn",
-                                    "layoutStyle" : { },
-                                    "name" : "TeamData",
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getCategorisedEvents } from \"./statistics/helpers\";\nJSON.stringify(getCategorisedEvents(Context.state.state[Context.team.id], Context.interface.state.categories));",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                } ],
+                                "children" : [ ],
                                 "className" : "",
                                 "layout" : { },
                                 "layoutClassName" : "hline",
                                 "layoutStyle" : { },
+                                "name" : "Horizontal line",
                                 "style" : { }
                               },
                               "type" : "FlexList"
@@ -558,133 +575,346 @@
                                               "props" : {
                                                 "children" : [ {
                                                   "props" : {
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getMinuteBubbleContent } from \"./statistics/simpleGapMaker\";\nContext.time.minute + Context.minuteIncrease.add !== Context.interface.state.overlayShown.minute ||\nContext.team.id !== Context.interface.state.overlayShown.teamId || \"All\" !== Context.interface.state.overlayShown.role ||\n  !getMinuteBubbleContent(Context.time.minute + Context.minuteIncrease.add, Context.team.state, Context.interface.state).length;",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "layoutClassName" : "",
+                                                    "layoutStyle" : {
+                                                      "font-size" : "30px",
+                                                      "left" : "70px",
+                                                      "position" : "absolute",
+                                                      "z-index" : "100"
+                                                    },
+                                                    "name" : "Close",
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "\"<p>⨯</p>\"",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                }, {
+                                                  "props" : {
+                                                    "className" : "",
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getMinuteBubbleContent } from \"./statistics/simpleGapMaker\";\nContext.time.minute + Context.minuteIncrease.add !== Context.interface.state.overlayShown.minute ||\nContext.team.id !== Context.interface.state.overlayShown.teamId || \"All\" !== Context.interface.state.overlayShown.role ||\n  !getMinuteBubbleContent(Context.time.minute + Context.minuteIncrease.add, Context.team.state, Context.interface.state).length;",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "layoutClassName" : "overlay center",
+                                                    "layoutStyle" : {
+                                                      "position" : "absolute",
+                                                      "top" : "25px"
+                                                    },
+                                                    "name" : "Minute overlay",
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getMinuteBubbleContent } from \"./statistics/simpleGapMaker\";\n`<pre class=\"keepFont\">` + getMinuteBubbleContent(Context.time.minute + Context.minuteIncrease.add, Context.team.state, Context.interface.state) + `</pre>`;",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                } ],
+                                                "className" : "clickable",
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getMinuteBubbleContent } from \"./statistics/simpleGapMaker\";\n!getMinuteBubbleContent(Context.time.minute + Context.minuteIncrease.add, Context.team.state, Context.interface.state).length;",
+                                                  "language" : "typescript"
+                                                },
+                                                "layout" : { },
+                                                "layoutClassName" : "clickable",
+                                                "layoutStyle" : {
+                                                  "height" : "18px",
+                                                  "padding" : "0",
+                                                  "position" : "absolute",
+                                                  "width" : "12px"
+                                                },
+                                                "localScriptEval" : {
+                                                  "script" : {
+                                                    "@class" : "ClientScript",
+                                                    "content" : "const currentMinute = Context.time.minute + Context.minuteIncrease.add;\nContext.interface.setState(previousState => (\n  previousState.overlayShown.minute !== currentMinute || previousState.overlayShown.teamId !== Context.team.id || previousState.overlayShown.role !== \"All\" ?\n  { ...previousState, overlayShown: { minute: (currentMinute), teamId: Context.team.id, role: \"All\" } }\n  : { ...previousState, overlayShown: { minute: -1, teamId: -1, role: \"\" } }\n))",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                },
+                                                "name" : "Clickable area",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
                                                     "children" : [ {
                                                       "props" : {
                                                         "children" : [ ],
-                                                        "className" : "evacLine",
+                                                        "className" : "evacArrivalLine",
                                                         "layout" : { },
                                                         "layoutClassName" : "",
                                                         "layoutStyle" : {
                                                           "padding" : "0"
                                                         },
-                                                        "name" : "Evac line",
+                                                        "name" : "Evac Arrival line",
                                                         "style" : { }
                                                       },
                                                       "type" : "FlexList"
                                                     }, {
                                                       "props" : {
+                                                        "className" : "evacArrNbr",
                                                         "hideIf" : {
                                                           "@class" : "Script",
-                                                          "content" : "!nbrHelicopter;",
+                                                          "content" : "!Context.interface.state.categories.VehicleArrivals||\n!Context.nbrEvacsArrs.state.nbrHelicopterArrs;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "layoutClassName" : "evacArrNbrContainer",
+                                                        "layoutStyle" : { },
+                                                        "name" : "Nbr Helicopter Arrivals",
+                                                        "style" : {
+                                                          "color" : "green"
+                                                        },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "JSON.stringify(Context.nbrEvacsArrs.state.nbrHelicopterArrs);",
+                                                          "language" : "TypeScript"
+                                                        }
+                                                      },
+                                                      "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "className" : "evacArrNbr",
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "!Context.interface.state.categories.Evacs||\n!Context.nbrEvacsArrs.state.nbrHelicopterEvacs;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "layoutClassName" : "evacArrNbrContainer",
+                                                        "layoutStyle" : {
+                                                          "margin-right" : "-2px",
+                                                          "padding" : "0 0 0 2px"
+                                                        },
+                                                        "name" : "Nbr Helicopter Evacs",
+                                                        "style" : {
+                                                          "color" : "red"
+                                                        },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "JSON.stringify(Context.nbrEvacsArrs.state.nbrHelicopterEvacs);",
+                                                          "language" : "TypeScript"
+                                                        }
+                                                      },
+                                                      "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "className" : "evac",
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "(!Context.interface.state.categories.VehicleArrivals || !Context.nbrEvacsArrs.state.nbrHelicopterArrs) && (!Context.interface.state.categories.Evacs || !Context.nbrEvacsArrs.state.nbrHelicopterEvacs);",
                                                           "language" : "typescript"
                                                         },
                                                         "layoutStyle" : { },
-                                                        "name" : "Helicopter one",
+                                                        "name" : "Helicopter icon",
                                                         "script" : {
                                                           "@class" : "Script",
                                                           "content" : "\"/pictosDashboard/Helicopter-Vincent_Le_Moign.png\"",
                                                           "language" : "TypeScript"
                                                         },
-                                                        "style" : {
-                                                          "height" : "auto",
-                                                          "width" : "15px",
-                                                          "z-index" : "4"
-                                                        }
+                                                        "style" : { }
                                                       },
                                                       "type" : "Image"
                                                     }, {
                                                       "props" : {
+                                                        "className" : "evacArrNbr",
                                                         "hideIf" : {
                                                           "@class" : "Script",
-                                                          "content" : "nbrElicopter < 2;",
+                                                          "content" : "!Context.interface.state.categories.VehicleArrivals||\n!Context.nbrEvacsArrs.state.nbrAmbulanceArrs;",
                                                           "language" : "typescript"
                                                         },
+                                                        "layoutClassName" : "evacArrNbrContainer",
                                                         "layoutStyle" : { },
-                                                        "name" : "Helicopter two",
-                                                        "script" : {
+                                                        "name" : "Nbr Ambulance Arrivals",
+                                                        "style" : {
+                                                          "color" : "green"
+                                                        },
+                                                        "text" : {
                                                           "@class" : "Script",
-                                                          "content" : "\"/pictosDashboard/Helicopter-Vincent_Le_Moign.png\"",
+                                                          "content" : "JSON.stringify(Context.nbrEvacsArrs.state.nbrAmbulanceArrs);",
                                                           "language" : "TypeScript"
-                                                        },
-                                                        "style" : {
-                                                          "height" : "auto",
-                                                          "width" : "15px",
-                                                          "z-index" : "4"
                                                         }
                                                       },
-                                                      "type" : "Image"
+                                                      "type" : "Text"
                                                     }, {
                                                       "props" : {
+                                                        "className" : "evacArrNbr",
                                                         "hideIf" : {
                                                           "@class" : "Script",
-                                                          "content" : "!nbrAmbulance;",
+                                                          "content" : "!Context.interface.state.categories.Evacs||\n!Context.nbrEvacsArrs.state.nbrAmbulanceEvacs;",
                                                           "language" : "typescript"
                                                         },
+                                                        "layoutClassName" : "evacArrNbrContainer",
                                                         "layoutStyle" : { },
-                                                        "name" : "Ambulance one",
-                                                        "script" : {
+                                                        "name" : "Nbr Ambulance Evacs",
+                                                        "style" : {
+                                                          "color" : "red"
+                                                        },
+                                                        "text" : {
                                                           "@class" : "Script",
-                                                          "content" : "\"/pictosDashboard/Ambulance-Odin_Wermeille.png\"",
+                                                          "content" : "JSON.stringify(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs);",
                                                           "language" : "TypeScript"
-                                                        },
-                                                        "style" : {
-                                                          "height" : "auto",
-                                                          "width" : "15px",
-                                                          "z-index" : "4"
                                                         }
                                                       },
-                                                      "type" : "Image"
+                                                      "type" : "Text"
                                                     }, {
                                                       "props" : {
+                                                        "className" : "evac",
                                                         "hideIf" : {
                                                           "@class" : "Script",
-                                                          "content" : "nbrAmbulance < 2;",
+                                                          "content" : "(!Context.interface.state.categories.VehicleArrivals || !Context.nbrEvacsArrs.state.nbrAmbulanceArrs) && (!Context.interface.state.categories.Evacs || !Context.nbrEvacsArrs.state.nbrAmbulanceEvacs);",
                                                           "language" : "typescript"
                                                         },
                                                         "layoutStyle" : { },
-                                                        "name" : "Ambulance two",
+                                                        "name" : "Ambulance icon",
                                                         "script" : {
                                                           "@class" : "Script",
                                                           "content" : "\"/pictosDashboard/Ambulance-Odin_Wermeille.png\"",
                                                           "language" : "TypeScript"
                                                         },
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Image"
+                                                    }, {
+                                                      "props" : {
+                                                        "className" : "evacArrNbr",
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "!Context.interface.state.categories.VehicleArrivals||\n!Context.nbrEvacsArrs.state.nbrSmurArrs;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "layoutClassName" : "evacArrNbrContainer",
+                                                        "layoutStyle" : { },
+                                                        "name" : "Nbr SMUR Arrivals",
                                                         "style" : {
-                                                          "height" : "auto",
-                                                          "width" : "15px",
-                                                          "z-index" : "4"
+                                                          "color" : "green"
+                                                        },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "JSON.stringify(Context.nbrEvacsArrs.state.nbrSmurArrs);",
+                                                          "language" : "TypeScript"
                                                         }
+                                                      },
+                                                      "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "className" : "evac",
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "!Context.interface.state.categories.VehicleArrivals||\n!Context.nbrEvacsArrs.state.nbrSmurArrs;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "layoutStyle" : { },
+                                                        "name" : "SMUR icon",
+                                                        "script" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"/pictosDashboard/Car-Andriy_Makukha.png\"",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "style" : { }
                                                       },
                                                       "type" : "Image"
                                                     } ],
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "oneVehicleType",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "(Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs || Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs || Context.nbrEvacsArrs.state.nbrHelicopterArrs)) + Number(!!Context.nbrEvacsArrs.state.nbrSmurArrs)) === 1;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "twoVehicleTypes",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "(Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs || Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs || Context.nbrEvacsArrs.state.nbrHelicopterArrs)) + Number(!!Context.nbrEvacsArrs.state.nbrSmurArrs)) === 2;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "threeVehicleTypes",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "(Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs || Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs || Context.nbrEvacsArrs.state.nbrHelicopterArrs)) + Number(!!Context.nbrEvacsArrs.state.nbrSmurArrs)) === 3;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "oneRepeat",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs && Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs && Context.nbrEvacsArrs.state.nbrHelicopterArrs)) === 1;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "twoRepeats",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs && Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs && Context.nbrEvacsArrs.state.nbrHelicopterArrs)) === 2;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "upper",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "!((Context.time.minute + Context.minuteIncrease.add) % 2);",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "lower",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "!!((Context.time.minute + Context.minuteIncrease.add) % 2);",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
                                                     "hideIf" : {
                                                       "@class" : "Script",
-                                                      "content" : "!Context.interface.state.categories.Evacs||\n!Context.nbrEvacs.nbrEvacs;",
+                                                      "content" : "(!Context.nbrEvacsArrs.state.nbrEvacs || !Context.interface.state.categories.Evacs) && (!Context.nbrEvacsArrs.state.nbrArrs || !Context.interface.state.categories.VehicleArrivals);",
                                                       "language" : "typescript"
                                                     },
                                                     "layout" : { },
-                                                    "layoutClassName" : "evacContainer oneEvac upper",
+                                                    "layoutClassName" : "evacArrivalContainer",
                                                     "layoutStyle" : {
                                                       "padding" : "0"
                                                     },
-                                                    "name" : "Evac container",
+                                                    "name" : "Evac Arrival container",
                                                     "style" : {
                                                       "position" : "absolute"
                                                     }
                                                   },
                                                   "type" : "FlexList"
                                                 } ],
-                                                "exposeAs" : "nbrEvacs",
-                                                "id" : "nbrEvacs",
+                                                "exposeAs" : "nbrEvacsArrs",
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "!Context.interface.state.categories.Evacs&&\n!Context.interface.state.categories.VehicleArrivals;",
+                                                  "language" : "typescript"
+                                                },
+                                                "id" : "",
                                                 "initialState" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { ActionBase } from \"./game/common/actions/actionBase\";\nimport { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { statsLogger } from \"./tools/logger\";\n  const teamState : MainStateObject = Context.team.state;\nconst evacs : ActionBase[] = teamState.actions.filter(action => action.actionNameKey === \"evacuate-title\" && action.startTime / 60 === (Context.time.minute + Context.minuteIncrease.add));\nconst evacsData = {\n    nbrEvacs : evacs.length,\n    /*nbrAmbulanceEvacs : getAmbulanceEvacs(teamState, evacs).length,\n    nbrHelicopterEvacs : getHelicopterEvacs(teamState, evacs).length*/ };\n  statsLogger.error(\"evacs data :\", evacsData);\n  evacsData;",
+                                                  "content" : "import { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { getCategorisedEvents, MainCategory } from \"./statistics/helpers\";\nconst categoriesEvacsArrOnly: { [Key in MainCategory]: boolean } = Object.fromEntries((Object.keys(Context.interface.state.categories) as MainCategory[]).map(key => [key, key === \"Evacs\" || key === \"VehicleArrivals\"])) as Record<MainCategory, boolean>;\nconst teamState: MainStateObject = Context.team.state;\nconst evacsArrEvents = getCategorisedEvents(teamState, categoriesEvacsArrOnly);\n\nconst minuteEvacsArrs = evacsArrEvents.map(evacArrList => {\n  return { category: evacArrList.category, evacsArrs: evacArrList.events.filter(evacArr => evacArr.startTime === Context.time.minute + Context.minuteIncrease.add) };\n}).filter(evacsArrs => evacsArrs.evacsArrs.length);\n\nlet nbrAmbulanceEvacs = 0;\nlet nbrHelicopterEvacs = 0;\nlet nbrAmbulanceArrs = 0;\nlet nbrHelicopterArrs = 0;\nlet nbrSmurArrs = 0;\nminuteEvacsArrs.forEach(evacsArrs => {\n  nbrAmbulanceEvacs += evacsArrs.category === \"AmbulanceEvacs\" ? evacsArrs.evacsArrs.length : 0;\n  nbrHelicopterEvacs += evacsArrs.category === \"HelicopterEvacs\" ? evacsArrs.evacsArrs.length : 0;\n  nbrAmbulanceArrs += evacsArrs.category === \"AmbulanceArrivals\" ? evacsArrs.evacsArrs.length : 0;\n  nbrHelicopterArrs += evacsArrs.category === \"HelicopterArrivals\" ? evacsArrs.evacsArrs.length : 0;\n  nbrSmurArrs += evacsArrs.category === \"SmurArrivals\" ? evacsArrs.evacsArrs.length : 0;\n})\nconst nbrEvacs = nbrAmbulanceEvacs + nbrHelicopterEvacs;\nconst nbrArrs = nbrAmbulanceArrs + nbrHelicopterArrs + nbrSmurArrs;\nconst evacsData = {\n  nbrEvacs,\n  nbrArrs,\n  nbrAmbulanceEvacs,\n  nbrHelicopterEvacs,\n  nbrAmbulanceArrs,\n  nbrHelicopterArrs,\n  nbrSmurArrs,\n};\nevacsData;",
                                                   "language" : "TypeScript"
                                                 },
                                                 "layoutStyle" : {
                                                   "padding" : "0"
                                                 },
-                                                "localState" : false,
-                                                "name" : "number of Evacs",
+                                                "localState" : true,
+                                                "name" : "Evacs and Arrivals",
                                                 "style" : { }
                                               },
                                               "type" : "State"
@@ -698,81 +928,21 @@
                                                 "style" : { },
                                                 "text" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { createMinuteSquare } from \"./statistics/simpleGapMaker\";\ncreateMinuteSquare(Context.time, Context.minuteIncrease.add, Context.state.state[Context.team.id], Context.interface.state);",
+                                                  "content" : "import { createMinuteSquare } from \"./statistics/simpleGapMaker\";\ncreateMinuteSquare(Context.time, Context.minuteIncrease.add, Context.team.state, Context.interface.state);",
                                                   "language" : "TypeScript"
                                                 }
                                               },
                                               "type" : "Text"
                                             } ],
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.time.lastMinute < (Context.time.minute + Context.minuteIncrease.add);",
+                                              "language" : "typescript"
+                                            },
                                             "layout" : { },
                                             "layoutStyle" : {
                                               "padding" : "0"
                                             },
-                                            "style" : { }
-                                          },
-                                          "type" : "FlexList"
-                                        }, {
-                                          "props" : {
-                                            "children" : [ {
-                                              "props" : {
-                                                "children" : [ {
-                                                  "props" : {
-                                                    "children" : [ ],
-                                                    "className" : "eventSquare METHANE",
-                                                    "layout" : { },
-                                                    "layoutStyle" : {
-                                                      "padding" : "0"
-                                                    },
-                                                    "style" : { }
-                                                  },
-                                                  "type" : "FlexList"
-                                                } ],
-                                                "className" : "",
-                                                "exposeAs" : "square",
-                                                "getItemsFn" : {
-                                                  "@class" : "Script",
-                                                  "content" : "[{number: 1}, {number: 2}, {number: 3}, {number: 4}, {number: 5}, {number: 6}, {number: 7}, {number: 8}, {number: 9}, {number: 10}, {number: 11}, {number: 12}]",
-                                                  "language" : "TypeScript"
-                                                },
-                                                "itemKey" : "number",
-                                                "layout" : { },
-                                                "layoutStyle" : {
-                                                  "padding" : "0"
-                                                },
-                                                "name" : "twelfth",
-                                                "style" : {
-                                                  "padding" : "0 12px 0 0"
-                                                }
-                                              },
-                                              "type" : "For each"
-                                            } ],
-                                            "className" : "",
-                                            "conditionnalClassNames" : [ {
-                                              "applyOn" : "Inside",
-                                              "className" : "last",
-                                              "condition" : {
-                                                "@class" : "Script",
-                                                "content" : "(Context.minuteIncrease.add + Context.time.minute) === Context.time.lastMinute;",
-                                                "language" : "typescript"
-                                              }
-                                            }, {
-                                              "applyOn" : "Inside",
-                                              "className" : "onFive",
-                                              "condition" : {
-                                                "@class" : "Script",
-                                                "content" : "(Context.time.minute + Context.minunteIncrease.add) % 5 === 0;",
-                                                "language" : "typescript"
-                                              }
-                                            } ],
-                                            "hideIf" : {
-                                              "@class" : "Script",
-                                              "content" : "(Context.minuteIncrease.add + Context.time.minute) > Context.time.lastMinute;",
-                                              "language" : "typescript"
-                                            },
-                                            "layout" : { },
-                                            "layoutClassName" : "eventContainer",
-                                            "layoutStyle" : { },
-                                            "name" : "notDisplayed",
                                             "style" : { }
                                           },
                                           "type" : "FlexList"
@@ -819,12 +989,20 @@
                                                     "content" : "import { getTeamsContext } from \"./dashboard/utils\";\nimport { isLastTimeline } from \"./statistics/analysisDashboard\";\nimport { getTeamState } from \"./statistics/teamDataWorkaround\";\n \n  const teams : { id : number, name : string }[] = []\n  getTeamsContext().forEach(team => {\n  const state = getTeamState(team.id);\n  state && teams.push(team);\n});\nisLastTimeline(teams, Context.team.id, Context.interface.state.teamsUnfolded);",
                                                     "language" : "typescript"
                                                   }
+                                                }, {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "endOfNotLastTeam",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { getTeamsContext } from \"./dashboard/utils\";\nimport { isLastTimelineInNotLastTeam } from \"./statistics/analysisDashboard\";\nimport { getTeamState } from \"./statistics/teamDataWorkaround\";\nconst teams : { id : number, name : string }[] = []\ngetTeamsContext().forEach(team => {\n  const state = getTeamState(team.id);\n  state && teams.push(team);\n});\nisLastTimelineInNotLastTeam(teams, Context.team.id, Context.interface.state.teamsUnfolded);",
+                                                    "language" : "typescript"
+                                                  }
                                                 } ],
                                                 "layout" : {
                                                   "flexDirection" : "column"
                                                 },
                                                 "layoutStyle" : {
-                                                  "padding" : "11.5px 11.5px 5px 11.5px"
+                                                  "padding" : "11.5px 20.5px 5px"
                                                 },
                                                 "name" : "Vertical line",
                                                 "style" : { }
@@ -838,6 +1016,7 @@
                                                   "language" : "typescript"
                                                 },
                                                 "layoutStyle" : {
+                                                  "margin-top" : "35px",
                                                   "padding" : "0px"
                                                 },
                                                 "name" : "Time",
@@ -861,7 +1040,8 @@
                                             },
                                             "name" : "Positioner",
                                             "style" : {
-                                              "margin-left" : "-6px",
+                                              "margin-left" : "-19px",
+                                              "margin-right" : "-30px",
                                               "padding" : "0px",
                                               "width" : "100%"
                                             }
@@ -872,6 +1052,7 @@
                                         "layoutStyle" : {
                                           "padding" : "0px"
                                         },
+                                        "name" : "Vertical line container",
                                         "style" : {
                                           "padding" : "0px"
                                         }
@@ -896,7 +1077,7 @@
                                 "exposeAs" : "time",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "import { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { getTimeArray } from \"./statistics/helpers\";\nconst teamData : MainStateObject[] = Object.values(Context.state.state);\nconst timeArray = getTimeArray(Object.values(teamData));\ntimeArray;",
+                                  "content" : "import { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { getTimeArray } from \"./statistics/helpers\";\nconst teamsData : MainStateObject[] = Object.values(Context.state.state);\nconst timeArray = getTimeArray(Object.values(teamsData));\ntimeArray;",
                                   "language" : "TypeScript"
                                 },
                                 "itemKey" : "minute",
@@ -951,30 +1132,12 @@
                                   "type" : "Text"
                                 }, {
                                   "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "className" : "stayIn",
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "false;",
-                                          "language" : "typescript"
-                                        },
-                                        "layoutClassName" : "stayIn",
-                                        "layoutStyle" : { },
-                                        "name" : "TeamData",
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "//return JSON.stringify(Context.state.state[Context.team.id]);\n// return JSON.stringify(getCategorisedEvents(Context.state.state[Context.team.id], [\"Roles\", \"Posts\", \"COMMS\", \"METHANE\"]));\n  '';",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    } ],
+                                    "children" : [ ],
                                     "className" : "",
                                     "layout" : { },
                                     "layoutClassName" : "hline",
                                     "layoutStyle" : { },
+                                    "name" : "Horizontal line",
                                     "style" : { }
                                   },
                                   "type" : "FlexList"
@@ -990,139 +1153,397 @@
                                                   "props" : {
                                                     "children" : [ {
                                                       "props" : {
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { getMinuteBubbleContent } from \"./statistics/simpleGapMaker\";\nContext.time.minute + Context.minuteIncrease.add !== Context.interface.state.overlayShown.minute ||\nContext.team.id !== Context.interface.state.overlayShown.teamId || Context.role.role !== Context.interface.state.overlayShown.role ||\n!getMinuteBubbleContent(Context.time.minute + Context.minuteIncrease.add, Context.team.state, Context.interface.state, Context.role.role).length;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "layoutClassName" : "",
+                                                        "layoutStyle" : {
+                                                          "font-size" : "30px",
+                                                          "left" : "70px",
+                                                          "position" : "absolute",
+                                                          "z-index" : "100"
+                                                        },
+                                                        "name" : "Close",
+                                                        "style" : { },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"<p>⨯</p>\"",
+                                                          "language" : "TypeScript"
+                                                        }
+                                                      },
+                                                      "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "className" : "",
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { getMinuteBubbleContent } from \"./statistics/simpleGapMaker\";\nContext.time.minute + Context.minuteIncrease.add !== Context.interface.state.overlayShown.minute ||\nContext.team.id !== Context.interface.state.overlayShown.teamId || Context.role.role !== Context.interface.state.overlayShown.role ||\n  !getMinuteBubbleContent(Context.time.minute + Context.minuteIncrease.add, Context.team.state, Context.interface.state, Context.role.role).length;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "layoutClassName" : "overlay center",
+                                                        "layoutStyle" : {
+                                                          "position" : "absolute",
+                                                          "top" : "25px"
+                                                        },
+                                                        "name" : "Minute overlay",
+                                                        "style" : { },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { getMinuteBubbleContent } from \"./statistics/simpleGapMaker\";\n`<pre class=\"keepFont\">` + getMinuteBubbleContent(Context.time.minute + Context.minuteIncrease.add, Context.team.state, Context.interface.state, Context.role.role) + `</pre>`;",
+                                                          "language" : "TypeScript"
+                                                        }
+                                                      },
+                                                      "type" : "Text"
+                                                    } ],
+                                                    "className" : "clickable",
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getMinuteBubbleContent } from \"./statistics/simpleGapMaker\";\n!getMinuteBubbleContent(Context.time.minute + Context.minuteIncrease.add, Context.team.state, Context.interface.state, Context.role.role).length;",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "layout" : { },
+                                                    "layoutClassName" : "clickable",
+                                                    "layoutStyle" : {
+                                                      "height" : "18px",
+                                                      "padding" : "0",
+                                                      "position" : "absolute",
+                                                      "width" : "12px"
+                                                    },
+                                                    "localScriptEval" : {
+                                                      "script" : {
+                                                        "@class" : "ClientScript",
+                                                        "content" : "const currentMinute = Context.time.minute + Context.minuteIncrease.add;\nContext.interface.setState(previousState => (\n  previousState.overlayShown.minute !== currentMinute || previousState.overlayShown.teamId !== Context.team.id || previousState.overlayShown.role !== Context.role.role ?\n  { ...previousState, overlayShown: { minute: (currentMinute), teamId: Context.team.id, role: Context.role.role } }\n  : { ...previousState, overlayShown: { minute: -1, teamId: -1, role: \"\" } }\n))",
+                                                        "language" : "TypeScript"
+                                                      }
+                                                    },
+                                                    "name" : "Clickable area",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
                                                         "children" : [ {
                                                           "props" : {
                                                             "children" : [ ],
-                                                            "className" : "evacLine",
+                                                            "className" : "evacArrivalLine",
                                                             "layout" : { },
                                                             "layoutClassName" : "",
                                                             "layoutStyle" : {
                                                               "padding" : "0"
                                                             },
-                                                            "name" : "Evac line",
+                                                            "name" : "Evac Arrival line",
                                                             "style" : { }
                                                           },
                                                           "type" : "FlexList"
                                                         }, {
                                                           "props" : {
+                                                            "className" : "evacArrNbr",
                                                             "hideIf" : {
                                                               "@class" : "Script",
-                                                              "content" : "!nbrHelicopter;",
+                                                              "content" : "!Context.interface.state.categories.VehicleArrivals||\n!Context.nbrEvacsArrs.state.nbrHelicopterArrs;",
+                                                              "language" : "typescript"
+                                                            },
+                                                            "layoutClassName" : "evacArrNbrContainer",
+                                                            "layoutStyle" : { },
+                                                            "name" : "Nbr Helicopter Arrivals",
+                                                            "style" : {
+                                                              "color" : "green"
+                                                            },
+                                                            "text" : {
+                                                              "@class" : "Script",
+                                                              "content" : "JSON.stringify(Context.nbrEvacsArrs.state.nbrHelicopterArrs);",
+                                                              "language" : "TypeScript"
+                                                            }
+                                                          },
+                                                          "type" : "Text"
+                                                        }, {
+                                                          "props" : {
+                                                            "className" : "evacArrNbr",
+                                                            "hideIf" : {
+                                                              "@class" : "Script",
+                                                              "content" : "!Context.interface.state.categories.Evacs||\n!Context.nbrEvacsArrs.state.nbrHelicopterEvacs;",
+                                                              "language" : "typescript"
+                                                            },
+                                                            "layoutClassName" : "evacArrNbrContainer",
+                                                            "layoutStyle" : {
+                                                              "margin-right" : "-2px",
+                                                              "padding" : "0 0 0 2px"
+                                                            },
+                                                            "name" : "Nbr Helicopter Evacs",
+                                                            "style" : {
+                                                              "color" : "red"
+                                                            },
+                                                            "text" : {
+                                                              "@class" : "Script",
+                                                              "content" : "JSON.stringify(Context.nbrEvacsArrs.state.nbrHelicopterEvacs);",
+                                                              "language" : "TypeScript"
+                                                            }
+                                                          },
+                                                          "type" : "Text"
+                                                        }, {
+                                                          "props" : {
+                                                            "className" : "evac",
+                                                            "hideIf" : {
+                                                              "@class" : "Script",
+                                                              "content" : "(!Context.interface.state.categories.VehicleArrivals || !Context.nbrEvacsArrs.state.nbrHelicopterArrs) && (!Context.interface.state.categories.Evacs || !Context.nbrEvacsArrs.state.nbrHelicopterEvacs);",
                                                               "language" : "typescript"
                                                             },
                                                             "layoutStyle" : { },
-                                                            "name" : "Helicopter one",
+                                                            "name" : "Helicopter icon",
                                                             "script" : {
                                                               "@class" : "Script",
                                                               "content" : "\"/pictosDashboard/Helicopter-Vincent_Le_Moign.png\"",
                                                               "language" : "TypeScript"
                                                             },
-                                                            "style" : {
-                                                              "height" : "auto",
-                                                              "width" : "15px",
-                                                              "z-index" : "4"
-                                                            }
+                                                            "style" : { }
                                                           },
                                                           "type" : "Image"
                                                         }, {
                                                           "props" : {
+                                                            "className" : "evacArrNbr",
                                                             "hideIf" : {
                                                               "@class" : "Script",
-                                                              "content" : "nbrElicopter < 2;",
+                                                              "content" : "!Context.interface.state.categories.VehicleArrivals||\n!Context.nbrEvacsArrs.state.nbrAmbulanceArrs;",
                                                               "language" : "typescript"
                                                             },
+                                                            "layoutClassName" : "evacArrNbrContainer",
                                                             "layoutStyle" : { },
-                                                            "name" : "Helicopter two",
-                                                            "script" : {
+                                                            "name" : "Nbr Ambulance Arrivals",
+                                                            "style" : {
+                                                              "color" : "green"
+                                                            },
+                                                            "text" : {
                                                               "@class" : "Script",
-                                                              "content" : "\"/pictosDashboard/Helicopter-Vincent_Le_Moign.png\"",
+                                                              "content" : "JSON.stringify(Context.nbrEvacsArrs.state.nbrAmbulanceArrs);",
                                                               "language" : "TypeScript"
-                                                            },
-                                                            "style" : {
-                                                              "height" : "auto",
-                                                              "width" : "15px",
-                                                              "z-index" : "4"
                                                             }
                                                           },
-                                                          "type" : "Image"
+                                                          "type" : "Text"
                                                         }, {
                                                           "props" : {
+                                                            "className" : "evacArrNbr",
                                                             "hideIf" : {
                                                               "@class" : "Script",
-                                                              "content" : "!nbrAmbulance;",
+                                                              "content" : "!Context.interface.state.categories.Evacs||\n!Context.nbrEvacsArrs.state.nbrAmbulanceEvacs;",
                                                               "language" : "typescript"
                                                             },
+                                                            "layoutClassName" : "evacArrNbrContainer",
                                                             "layoutStyle" : { },
-                                                            "name" : "Ambulance one",
-                                                            "script" : {
+                                                            "name" : "Nbr Ambulance Evacs",
+                                                            "style" : {
+                                                              "color" : "red"
+                                                            },
+                                                            "text" : {
                                                               "@class" : "Script",
-                                                              "content" : "\"/pictosDashboard/Ambulance-Odin_Wermeille.png\"",
+                                                              "content" : "JSON.stringify(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs);",
                                                               "language" : "TypeScript"
-                                                            },
-                                                            "style" : {
-                                                              "height" : "auto",
-                                                              "width" : "15px",
-                                                              "z-index" : "4"
                                                             }
                                                           },
-                                                          "type" : "Image"
+                                                          "type" : "Text"
                                                         }, {
                                                           "props" : {
+                                                            "className" : "evac",
                                                             "hideIf" : {
                                                               "@class" : "Script",
-                                                              "content" : "nbrAmbulance < 2;",
+                                                              "content" : "(!Context.interface.state.categories.VehicleArrivals || !Context.nbrEvacsArrs.state.nbrAmbulanceArrs) && (!Context.interface.state.categories.Evacs || !Context.nbrEvacsArrs.state.nbrAmbulanceEvacs);",
                                                               "language" : "typescript"
                                                             },
                                                             "layoutStyle" : { },
-                                                            "name" : "Ambulance two",
+                                                            "name" : "Ambulance icon",
                                                             "script" : {
                                                               "@class" : "Script",
                                                               "content" : "\"/pictosDashboard/Ambulance-Odin_Wermeille.png\"",
                                                               "language" : "TypeScript"
                                                             },
+                                                            "style" : { }
+                                                          },
+                                                          "type" : "Image"
+                                                        }, {
+                                                          "props" : {
+                                                            "className" : "evacArrNbr",
+                                                            "hideIf" : {
+                                                              "@class" : "Script",
+                                                              "content" : "!Context.interface.state.categories.VehicleArrivals||\n!Context.nbrEvacsArrs.state.nbrSmurArrs;",
+                                                              "language" : "typescript"
+                                                            },
+                                                            "layoutClassName" : "evacArrNbrContainer",
+                                                            "layoutStyle" : { },
+                                                            "name" : "Nbr SMUR Arrivals",
                                                             "style" : {
-                                                              "height" : "auto",
-                                                              "width" : "15px",
-                                                              "z-index" : "4"
+                                                              "color" : "green"
+                                                            },
+                                                            "text" : {
+                                                              "@class" : "Script",
+                                                              "content" : "JSON.stringify(Context.nbrEvacsArrs.state.nbrSmurArrs);",
+                                                              "language" : "TypeScript"
                                                             }
+                                                          },
+                                                          "type" : "Text"
+                                                        }, {
+                                                          "props" : {
+                                                            "className" : "evac",
+                                                            "hideIf" : {
+                                                              "@class" : "Script",
+                                                              "content" : "!Context.interface.state.categories.VehicleArrivals||\n!Context.nbrEvacsArrs.state.nbrSmurArrs;",
+                                                              "language" : "typescript"
+                                                            },
+                                                            "layoutStyle" : { },
+                                                            "name" : "SMUR icon",
+                                                            "script" : {
+                                                              "@class" : "Script",
+                                                              "content" : "\"/pictosDashboard/Car-Andriy_Makukha.png\"",
+                                                              "language" : "TypeScript"
+                                                            },
+                                                            "style" : { }
                                                           },
                                                           "type" : "Image"
                                                         } ],
+                                                        "conditionnalClassNames" : [ {
+                                                          "applyOn" : "Outside",
+                                                          "className" : "oneVehicleType",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "(Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs || Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs || Context.nbrEvacsArrs.state.nbrHelicopterArrs)) + Number(!!Context.nbrEvacsArrs.state.nbrSmurArrs)) === 1;",
+                                                            "language" : "typescript"
+                                                          }
+                                                        }, {
+                                                          "applyOn" : "Outside",
+                                                          "className" : "twoVehicleTypes",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "(Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs || Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs || Context.nbrEvacsArrs.state.nbrHelicopterArrs)) + Number(!!Context.nbrEvacsArrs.state.nbrSmurArrs)) === 2;",
+                                                            "language" : "typescript"
+                                                          }
+                                                        }, {
+                                                          "applyOn" : "Outside",
+                                                          "className" : "threeVehicleTypes",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "(Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs || Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs || Context.nbrEvacsArrs.state.nbrHelicopterArrs)) + Number(!!Context.nbrEvacsArrs.state.nbrSmurArrs)) === 3;",
+                                                            "language" : "typescript"
+                                                          }
+                                                        }, {
+                                                          "applyOn" : "Outside",
+                                                          "className" : "oneRepeat",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs && Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs && Context.nbrEvacsArrs.state.nbrHelicopterArrs)) === 1;",
+                                                            "language" : "typescript"
+                                                          }
+                                                        }, {
+                                                          "applyOn" : "Outside",
+                                                          "className" : "twoRepeats",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs && Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs && Context.nbrEvacsArrs.state.nbrHelicopterArrs)) === 2;",
+                                                            "language" : "typescript"
+                                                          }
+                                                        }, {
+                                                          "applyOn" : "Outside",
+                                                          "className" : "upper",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "!((Context.time.minute + Context.minuteIncrease.add) % 2);",
+                                                            "language" : "typescript"
+                                                          }
+                                                        }, {
+                                                          "applyOn" : "Outside",
+                                                          "className" : "lower",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "!!((Context.time.minute + Context.minuteIncrease.add) % 2);",
+                                                            "language" : "typescript"
+                                                          }
+                                                        } ],
                                                         "hideIf" : {
                                                           "@class" : "Script",
-                                                          "content" : "!Context.interface.state.categories.Evacs||\n!Context.nbrEvacs.nbrEvacs;",
+                                                          "content" : "(!Context.nbrEvacsArrs.state.nbrEvacs || !Context.interface.state.categories.Evacs) && (!Context.nbrEvacsArrs.state.nbrArrs || !Context.interface.state.categories.VehicleArrivals);",
                                                           "language" : "typescript"
                                                         },
                                                         "layout" : { },
-                                                        "layoutClassName" : "evacContainer oneEvac upper",
+                                                        "layoutClassName" : "evacArrivalContainer",
                                                         "layoutStyle" : {
                                                           "padding" : "0"
                                                         },
-                                                        "name" : "Evac container",
+                                                        "name" : "Evac Arrival container",
                                                         "style" : {
                                                           "position" : "absolute"
                                                         }
                                                       },
                                                       "type" : "FlexList"
                                                     } ],
-                                                    "exposeAs" : "nbrEvacs",
-                                                    "id" : "nbrEvacs",
+                                                    "exposeAs" : "nbrEvacsArrs",
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "!Context.interface.state.categories.Evacs&&\n!Context.interface.state.categories.VehicleArrivals;",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "id" : "",
                                                     "initialState" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { ActionBase } from \"./game/common/actions/actionBase\";\nimport { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { statsLogger } from \"./tools/logger\";\n  const teamState : MainStateObject = Context.team.state;\nconst evacs : ActionBase[] = teamState.actions.filter(action => action.actionNameKey === \"evacuate-title\" && action.startTime / 60 === (Context.time.minute + Context.minuteIncrease.add));\nconst evacsData = {\n    nbrEvacs : evacs.length,\n    /*nbrAmbulanceEvacs : getAmbulanceEvacs(teamState, evacs).length,\n    nbrHelicopterEvacs : getHelicopterEvacs(teamState, evacs).length*/ };\n  statsLogger.error(\"evacs data :\", evacsData);\n  evacsData;",
+                                                      "content" : "import { MainStateObject } from \"./game/common/simulationState/mainSimulationState\";\nimport { getCategorisedEvents, getOwnerRole, MainCategory } from \"./statistics/helpers\";\nconst categoriesEvacsArrOnly: { [Key in MainCategory]: boolean } = Object.fromEntries((Object.keys(Context.interface.state.categories) as MainCategory[]).map(key => [key, key === \"Evacs\" || key === \"VehicleArrivals\"])) as Record<MainCategory, boolean>;\nconst teamState: MainStateObject = Context.team.state;\nconst evacsArrsEvents = getCategorisedEvents(teamState, categoriesEvacsArrOnly);\n\nconst minuteEvacsArrs = evacsArrsEvents.map(evacsArrsList => {\n\n  return {\n    category: evacsArrsList.category, evacsArrs: evacsArrsList.events.filter(evacArr => {\n      const timeMatch = evacArr.startTime === Context.time.minute + Context.minuteIncrease.add;\n      const roleMatch = getOwnerRole(Context.team.state, evacArr.ownerId) === Context.role.role;\n      return timeMatch && roleMatch\n    })\n  };\n}).filter(evacsArrs => evacsArrs.evacsArrs.length);\n\nlet nbrAmbulanceEvacs = 0;\nlet nbrHelicopterEvacs = 0;\nlet nbrAmbulanceArrs = 0;\nlet nbrHelicopterArrs = 0;\nlet nbrSmurArrs = 0;\nminuteEvacsArrs.forEach(evacsArrs => {\n  nbrAmbulanceEvacs += evacsArrs.category === \"AmbulanceEvacs\" ? evacsArrs.evacsArrs.length : 0;\n  nbrHelicopterEvacs += evacsArrs.category === \"HelicopterEvacs\" ? evacsArrs.evacsArrs.length : 0;\n  nbrAmbulanceArrs += evacsArrs.category === \"AmbulanceArrivals\" ? evacsArrs.evacsArrs.length : 0;\n  nbrHelicopterArrs += evacsArrs.category === \"HelicopterArrivals\" ? evacsArrs.evacsArrs.length : 0;\n  nbrSmurArrs += evacsArrs.category === \"SmurArrivals\" ? evacsArrs.evacsArrs.length : 0;\n})\nconst nbrEvacs = nbrAmbulanceEvacs + nbrHelicopterEvacs;\nconst nbrArrs = nbrAmbulanceArrs + nbrHelicopterArrs + nbrSmurArrs;\nconst evacsData = {\n  nbrEvacs,\n  nbrArrs,\n  nbrAmbulanceEvacs,\n  nbrHelicopterEvacs,\n  nbrAmbulanceArrs,\n  nbrHelicopterArrs,\n  nbrSmurArrs\n};\nevacsData;",
                                                       "language" : "TypeScript"
                                                     },
                                                     "layoutStyle" : {
                                                       "padding" : "0"
                                                     },
-                                                    "localState" : false,
+                                                    "localState" : true,
                                                     "name" : "number of Evacs",
                                                     "style" : { }
                                                   },
                                                   "type" : "State"
                                                 }, {
                                                   "props" : {
+                                                    "className" : "beforeStart",
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getActorsPositions, Role } from \"./statistics/helpers\";\n(getActorsPositions(Context.team.state, [Context.role.role])[Context.role.role as Role].length && (Context.time.minute + Context.minuteIncrease.add) >= (getActorsPositions(Context.team.state, [Context.role.role])[Context.role.role as Role][0].time)) || (Context.team.state.simulationTimeSec / 60) < (Context.time.minute + Context.minuteIncrease.add);",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "layoutStyle" : {
+                                                      "padding" : "0"
+                                                    },
+                                                    "name" : "No minute display before start",
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { createNoMinuteParallelogram } from \"./statistics/simpleGapMaker\";\ncreateNoMinuteParallelogram(Context.time.lastMinute, Context.team.state.simulationTimeSec / 60, Context.time.minute + Context.minuteIncrease.add, true, false)",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                }, {
+                                                  "props" : {
+                                                    "className" : "beforeStart",
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getActorsPositions, Role } from \"./statistics/helpers\";\n(getActorsPositions(Context.team.state, [Context.role.role])[Context.role.role as Role].length && (Context.time.minute + Context.minuteIncrease.add) >= (getActorsPositions(Context.team.state, [Context.role.role])[Context.role.role as Role][0].time)) || (Context.team.state.simulationTimeSec / 60) < (Context.time.minute + Context.minuteIncrease.add);",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "layoutStyle" : {
+                                                      "padding" : "0"
+                                                    },
+                                                    "name" : "No minute display before start",
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { createNoMinuteParallelogram } from \"./statistics/simpleGapMaker\";\ncreateNoMinuteParallelogram(Context.time.lastMinute, Context.team.state.simulationTimeSec / 60, Context.time.minute + Context.minuteIncrease.add, false, true);",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                }, {
+                                                  "props" : {
                                                     "className" : "",
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getActorsPositions, Role } from \"./statistics/helpers\";\n!((getActorsPositions(Context.team.state, [Context.role.role])[Context.role.role as Role].length && (Context.time.minute + Context.minuteIncrease.add) >= (getActorsPositions(Context.team.state, [Context.role.role])[Context.role.role as Role][0].time)) || (Context.team.state.simulationTimeSec / 60) < (Context.time.minute + Context.minuteIncrease.add));",
+                                                      "language" : "typescript"
+                                                    },
                                                     "layoutStyle" : {
                                                       "padding" : "0"
                                                     },
@@ -1130,78 +1551,21 @@
                                                     "style" : { },
                                                     "text" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { createMinuteSquare } from \"./statistics/simpleGapMaker\";\ncreateMinuteSquare(Context.time, Context.minuteIncrease.add, Context.state.state[Context.team.id], Context.interface.state, Context.role.role);",
+                                                      "content" : "import { createMinuteSquare } from \"./statistics/simpleGapMaker\";\ncreateMinuteSquare(Context.time, Context.minuteIncrease.add, Context.team.state, Context.interface.state, Context.role.role);",
                                                       "language" : "TypeScript"
                                                     }
                                                   },
                                                   "type" : "Text"
                                                 } ],
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "(Context.time.minute + Context.minuteIncrease.add) > Context.time.lastMinute;",
+                                                  "language" : "typescript"
+                                                },
                                                 "layout" : { },
                                                 "layoutStyle" : {
                                                   "padding" : "0"
                                                 },
-                                                "style" : { }
-                                              },
-                                              "type" : "FlexList"
-                                            }, {
-                                              "props" : {
-                                                "children" : [ {
-                                                  "props" : {
-                                                    "children" : [ {
-                                                      "props" : {
-                                                        "children" : [ ],
-                                                        "className" : "eventSquare METHANE",
-                                                        "layout" : { },
-                                                        "layoutStyle" : {
-                                                          "padding" : "0"
-                                                        },
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "FlexList"
-                                                    } ],
-                                                    "className" : "",
-                                                    "exposeAs" : "square",
-                                                    "getItemsFn" : {
-                                                      "@class" : "Script",
-                                                      "content" : "[{number: 1}, {number: 2}, {number: 3}, {number: 4}, {number: 5}, {number: 6}, {number: 7}, {number: 8}, {number: 9}, {number: 10}, {number: 11}, {number: 12}]",
-                                                      "language" : "TypeScript"
-                                                    },
-                                                    "itemKey" : "number",
-                                                    "layout" : { },
-                                                    "layoutStyle" : {
-                                                      "padding" : "0"
-                                                    },
-                                                    "name" : "twelfths",
-                                                    "style" : { }
-                                                  },
-                                                  "type" : "For each"
-                                                } ],
-                                                "className" : "eventContainer",
-                                                "conditionnalClassNames" : [ {
-                                                  "applyOn" : "Inside",
-                                                  "className" : "last",
-                                                  "condition" : {
-                                                    "@class" : "Script",
-                                                    "content" : "(Context.minuteIncrease.add + Context.time.minute) === Context.time.lastMinute;",
-                                                    "language" : "typescript"
-                                                  }
-                                                }, {
-                                                  "applyOn" : "Inside",
-                                                  "className" : "onFive",
-                                                  "condition" : {
-                                                    "@class" : "Script",
-                                                    "content" : "Context.time.minute % 5 === 0;",
-                                                    "language" : "typescript"
-                                                  }
-                                                } ],
-                                                "hideIf" : {
-                                                  "@class" : "Script",
-                                                  "content" : "(Context.minuteIncrease.add + Context.time.minute) > Context.time.lastMinute;",
-                                                  "language" : "typescript"
-                                                },
-                                                "layout" : { },
-                                                "layoutClassName" : "eventContainer",
-                                                "layoutStyle" : { },
                                                 "style" : { }
                                               },
                                               "type" : "FlexList"
@@ -1244,12 +1608,28 @@
                                                         "content" : "import { getTeamsContext } from \"./dashboard/utils\";\nimport { isLastRoleInLastTimeline } from \"./statistics/analysisDashboard\";\nimport { getTeamState } from \"./statistics/teamDataWorkaround\";\n  const teams : { id : number, name : string }[] = []\n  getTeamsContext().forEach(team => {\n  const state = getTeamState(team.id);\n  state && teams.push(team);\n});\nisLastRoleInLastTimeline(teams, Context.team.id, Context.interface.state.teamsUnfolded, Context.role);",
                                                         "language" : "typescript"
                                                       }
+                                                    }, {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "endOfNotLastTeam",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "false;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "endOfNotLastTeam",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { getTeamsContext } from \"./dashboard/utils\";\nimport { isLastTimelineInNotLastTeam } from \"./statistics/analysisDashboard\";\nimport { getTeamState } from \"./statistics/teamDataWorkaround\";\n  const teams : { id : number, name : string }[] = []\ngetTeamsContext().forEach(team => {\n  const state = getTeamState(team.id);\n  state && teams.push(team);\n  })\nisLastTimelineInNotLastTeam(teams, Context.team.id, Context.interface.state.teamsUnfolded, Context.role);",
+                                                        "language" : "typescript"
+                                                      }
                                                     } ],
                                                     "layout" : {
                                                       "flexDirection" : "column"
                                                     },
                                                     "layoutStyle" : {
-                                                      "padding" : "11.5px 11.5px 5px 11.5px"
+                                                      "padding" : "11.5px 20.5px 5px"
                                                     },
                                                     "name" : "Vertical line",
                                                     "style" : { }
@@ -1263,7 +1643,7 @@
                                                       "language" : "typescript"
                                                     },
                                                     "layoutStyle" : {
-                                                      "margin-top" : "15px",
+                                                      "margin-top" : "20px",
                                                       "padding" : "0px"
                                                     },
                                                     "name" : "Time",
@@ -1287,7 +1667,8 @@
                                                 },
                                                 "name" : "Positionner",
                                                 "style" : {
-                                                  "margin-left" : "-6px",
+                                                  "margin-left" : "-19px",
+                                                  "margin-right" : "-30px",
                                                   "padding" : "0px",
                                                   "width" : "100%"
                                                 }
@@ -1298,6 +1679,7 @@
                                             "layoutStyle" : {
                                               "padding" : "0px"
                                             },
+                                            "name" : "Vertical line container",
                                             "style" : {
                                               "padding" : "0px"
                                             }
@@ -1355,7 +1737,7 @@
                             "exposeAs" : "role",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "  return[{role : \"AL\"}, {role : \"ACS\"}, {role : \"MCS\"}, {role : \"LeadPMA\"}, {role : \"EVASAN\"}]",
+                              "content" : "  return[{role : \"AL\"}, {role : \"ACS\"}, {role : \"MCS\"}, {role : \"LEADPMA\"}, {role : \"EVASAN\"}]",
                               "language" : "TypeScript"
                             },
                             "hideIf" : {

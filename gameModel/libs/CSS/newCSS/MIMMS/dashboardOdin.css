@@ -1,3 +1,13 @@
+.clickable {
+  z-index: 20;
+}
+
+pre.keepFont {
+  font-family: inherit;
+  font-size: small;
+  text-wrap: wrap;
+}
+
 .hline {
   padding: 0px;
   height: 18px;
@@ -9,14 +19,14 @@
 }
 
 .vline {
-  height: 30px;
+  height: 55px;
   padding: 0px;
   margin: 0 auto;
   border-left: 1px dashed #313131;
 }
 
-.vline.notLastTeam {
-  height: 50px;
+.vline.endOfNotLastTeam {
+  height: 70px;
 }
 
 .vline.last {
@@ -36,15 +46,6 @@
   margin: 5px;
 }
 
-.legend.color{
-  height: 30px;
-  width: 30px;
-}
-
-.legend.METHANE {
-  background-color: red;
-}
-
 .overlay {
   position: absolute;
   top: 0;
@@ -54,6 +55,24 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   padding: 1rem;
   border-radius: 8px;
+}
+
+.overlay.center {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+}
+
+.overlay.center::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 11px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+    z-index: 99;
 }
 
 .stayIn {
@@ -69,7 +88,7 @@
 
 .alignRight {
   transform: translateX(100%);
-  right: -10px;
+  right: -30px;
   top: 5px;
   margin-left: auto;
 }
@@ -88,7 +107,79 @@ button.removeStyle:hover {
   background-color: #d9d9d9;
 }
 
-.evacContainer{
+.clickable{
+  cursor: pointer;
+}
+
+img.evac {
+  transform: scaleX(-1);
+  width: 13px;
+  height: auto;
+  z-index: 4;
+  margin-left: -2px;
+  margin-right: -7px;
+}
+
+.notFirstNumber {
+  margin-left: 26px;
+}
+
+.parallelogram[style*="--minutes-count"] {
+  position:  relative;
+  background-color: #c0c0c0;
+  width: 3px;
+  height: 18px;
+  transform: skew(-20deg);
+  margin-right: calc(((100vw - 150px) * 0.7 - 32px - 6px * var(--minutes-count)) / (var(--minutes-count) * 2 - 1));
+  margin-bottom: -10px;
+  z-index: 5;
+}
+
+.beforeStart .parallelogram {
+  transform: skew(-20deg) translateX(3px);
+}
+
+.afterEnd .parallelogram {
+  margin-right: skew(-20deg) translateX(-3px);
+}
+
+.parallelograms[style*="--minutes-count"][style*="--total-minutes-count"] {
+  --stripe-width: 3px;
+
+  --timeline-width: calc((100vw - 150px) * 0.7);
+
+  --gap: calc(
+    (var(--timeline-width) - var(--stripe-width) * var(--total-minutes-count)) /
+    (var(--total-minutes-count) - 1)
+  );
+
+  --slot: calc(var(--stripe-width) + var(--gap));
+
+  width: calc(var(--slot) * var(--minutes-count) - var(--gap));
+  height: 18px;
+
+  background: repeating-linear-gradient(
+    to right,
+    #c0c0c0 0,
+    #c0c0c0 var(--stripe-width),
+    transparent var(--stripe-width),
+    transparent var(--slot)
+  );
+
+  transform: skew(-20deg);
+}
+
+.evacArrNbr {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.evacArrNbrContainer {
+  padding: 0 0 0 2px;
+  margin-right: -3px;
+}
+
+.evacArrivalContainer{
   position: absolute;
   height: 15px;
   border: 1px solid #313131;
@@ -96,27 +187,51 @@ button.removeStyle:hover {
   display: flex;
   align-items: center;
   background-color: transparent;
-  z-index: 5;
 }
 
-.evacContainer.oneEvac{
+.evacArrivalContainer.oneVehicleType {
   width: 26px;
+} 
+
+.evacArrivalContainer.oneVehicleType.oneRepeat {
+  width: 31px;
 }
 
-.evacContainer.twoEvacs{
-  width: 52px;
+.evacArrivalContainer.twoVehicleTypes {
+  width: 45px;
 }
 
-.evacContainer.lower{
-
+.evacArrivalContainer.twoVehicleTypes.oneRepeat {
+  width: 51px;
 }
 
-.evacContainer.upper {
+.evacArrivalContainer.twoVehicleTypes.twoRepeats {
+  width: 57px;
+}
+
+.evacArrivalContainer.threeVehicleTypes {
+  width: 65px;
+}
+
+.evacArrivalContainer.threeVehicleTypes.oneRepeat {
+  width: 71px;
+}
+
+.evacArrivalContainer.threeVehicleTypes.twoRepeats {
+  width: 77px;
+}
+
+.evacArrivalContainer.lower{
+  transform: translateY(18.5px) translateX(23px) rotate(22.5deg);
+  transform-origin: left center;
+}
+
+.evacArrivalContainer.upper {
   transform: translateY(-15px) translateX(23px) rotate(-22.5deg);
   transform-origin: left center;
 }
 
-.evacLine {
+.evacArrivalLine {
   width: 20px;
   padding: 0;
   border-top: 1px solid #313131;
@@ -138,7 +253,7 @@ button.removeStyle:hover {
   margin-right: calc(((100vw - 150px)*0.7 - 32px - 12px * var(--minutes-count)) / (var(--minutes-count) - 1));
 }
 
-.eventContainer.last{
+.eventContainer.last {
   margin: 0 0 -10px;
 }
 
@@ -147,6 +262,10 @@ button.removeStyle:hover {
   width: 1px;
   z-index: 2;
   background-color: #c0c0c0;
+}
+
+.eventSquare.noMinute {
+  background-color: #d9d9d9;
 }
 
 .eventSquare.METHANE  { background-color: #E7241A; }
@@ -175,10 +294,6 @@ button.removeStyle:hover {
 .eventSquare.AcsMscArrivalAnnouncement  { background-color: #BA68C8; }
 .eventSquare.EvasanArrivalAnnouncement  { background-color: #AB47BC; }
 
-.eventSquare.AmbulanceArrivals  { background-color: #EAB1E5; }
-.eventSquare.HelicopterArrivals { background-color: #FAD9F7; }
-.eventSquare.SmurArrivals       { background-color: #FD7AF2; }
-
 .eventSquare.PlayerMoves { background-color: #F504B3; }
 
 
@@ -187,6 +302,28 @@ button.removeStyle:hover {
   width: 12px;
   margin-top: 2.2px;
   padding: 0px;
+}
+
+.redLegendN {
+  position: absolute;
+  font-size: 12px;
+  font-weight:bold;
+  left: 4px;
+  bottom: 2px;
+  color: red;
+}
+
+.greenLegendN {
+  position: absolute;
+  font-size: 12px;
+  font-weight:bold;
+  left: 4px;
+  bottom: 2px;
+  color: green;
+}
+
+.legendSquare.outlined {
+  border: 1px solid #313131;
 }
 
 .legendSquare.METHANE { background-color: #E7241A; }
@@ -214,10 +351,6 @@ button.removeStyle:hover {
 .legendSquare.LeadpmaArrivalAnnouncement { background-color: #CE93D8; }
 .legendSquare.AcsMscArrivalAnnouncement  { background-color: #BA68C8; }
 .legendSquare.EvasanArrivalAnnouncement  { background-color: #AB47BC; }
-
-.legendSquare.AmbulanceArrivals   { background-color: #EAB1E5; }
-.legendSquare.HelicopterArrivals  { background-color: #FAD9F7; }
-.legendSquare.SmurArrivals        { background-color: #FD7AF2; }
 
 .legendSquare.PlayerMoves { background-color: #F504B3; }
 

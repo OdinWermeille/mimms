@@ -1023,7 +1023,7 @@
                                                 "style" : { },
                                                 "text" : {
                                                   "@class" : "Script",
-                                                  "content" : "JSON.stringify(Context.time.minute)",
+                                                  "content" : "JSON.stringify(Context.time.minute) + \"'\"",
                                                   "language" : "TypeScript"
                                                 }
                                               },
@@ -1650,7 +1650,7 @@
                                                     "style" : { },
                                                     "text" : {
                                                       "@class" : "Script",
-                                                      "content" : "JSON.stringify(Context.time.minute)",
+                                                      "content" : "JSON.stringify(Context.time.minute) + \"'\"",
                                                       "language" : "TypeScript"
                                                     }
                                                   },

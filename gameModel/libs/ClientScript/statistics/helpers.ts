@@ -141,125 +141,6 @@ function getResourcesEnum(resourcesId : number[], state : MainStateObject) : str
   return resourcesEnum;
 }
 
-function getRoleEvents(state : MainStateObject, role : Role) {
-    const actions = getActionList(state);
-    const roleId = getOwnerId(state, role);
-    return actions.filter(action => action.ownerId === roleId);
-}
-
-function getALPositions(state : MainStateObject, time : number = 0) {
-    const events = getRoleEvents(state, "AL");
-    if (events.length === 0) return null;
-    const specialPositionChangeEvent = getUniqueEvent(state, "define-pcFront-title");
-    const movements = events.filter(event => event.actionNameKey === "move-actor-title");
-    const positions = [["ambulance", 0], [specialPositionChangeEvent.fixedMapEntity.id, (specialPositionChangeEvent.startTime + specialPositionChangeEvent.durationSec)/60]];
-    movements.forEach(movement => {
-        positions.push([movement.location, (movement.startTime + movement.durationSec)/60]);
-    });
-    if (!time) return positions;
-    
-    const filteredPositions = positions.filter(pos => pos[1] <= time);
-    if (filteredPositions.length === 0) return null;
-    return filteredPositions[filteredPositions.length - 1][0];
-}
-
-function getACSPositions(state : MainStateObject, time : number = 0) {
-    const events = getRoleEvents(state, "ACS");
-    if (events.length === 0) return null;
-    const initialPositionEvent = events.find(event => event.actionNameKey === "on-the-road");
-    const specialPositionChangeEvent = getUniqueEvent(state, "define-PC-title");
-    const movements = events.filter(event => event.actionNameKey === "move-actor-title");
-    const positions = [["pcFront", (initialPositionEvent.startTime + initialPositionEvent.durationSec)/60]];
-    specialPositionChangeEvent && positions.push([specialPositionChangeEvent.fixedMapEntity.id, (specialPositionChangeEvent.startTime + specialPositionChangeEvent.durationSec)/60]);
-    movements.forEach(movement => {
-        positions.push([movement.location, (movement.startTime + movement.durationSec)/60]);
-    });
-    if (!time) return positions;
-    
-    const filteredPositions = positions.filter(pos => pos[1] <= time);
-    if (filteredPositions.length === 0) return null;
-    return filteredPositions[filteredPositions.length - 1][0];
-}
-
-function getMCSPositions(state : MainStateObject, time : number = 0) {
-    const events = getRoleEvents(state, "MCS");
-    if (events.length === 0) return null;
-    const initialPositionEvent = events.find(event => event.actionNameKey === "on-the-road");
-    const specialPositionChangeEvent = getUniqueEvent(state, "define-PC-title");
-    const movements = events.filter(event => event.actionNameKey === "move-actor-title");
-    const positions = [["pcFront", (initialPositionEvent.startTime + initialPositionEvent.durationSec)/60]];
-    specialPositionChangeEvent && positions.push([specialPositionChangeEvent.fixedMapEntity.id, (specialPositionChangeEvent.startTime + specialPositionChangeEvent.durationSec)/60]);
-    movements.forEach(movement => {
-        positions.push([movement.location, (movement.startTime + movement.durationSec)/60]);
-    });
-    if (!time) return positions;
-
-    const filteredPositions = positions.filter(pos => pos[1] <= time);
-    if (filteredPositions.length === 0) return null;
-    return filteredPositions[filteredPositions.length - 1][0];
-}
-
-function getEVASANPositions(state : MainStateObject, time : number = 0) {
-    const events = getRoleEvents(state, "EVASAN");
-    if (events.length === 0) return null;
-    const creatorRole = getCreatorRole(state, "EVASAN");
-    const initialPositionEvent = getUniqueEvent(state, "appoint-EVASAN-title");
-    const creationTime = (initialPositionEvent.startTime + initialPositionEvent.durationSec)/60;
-    // We assume that the creator role is either "ACS" or "MCS"    
-    const creatorPosition = creatorRole === "ACS" ? getACSPositions(state, creationTime) : getMCSPositions(state, creationTime);
-    const movements = events.filter(event => event.actionNameKey === "move-actor-title");
-    const positions = [[creatorPosition, creationTime]];
-    movements.forEach(movement => {
-        positions.push([movement.location, (movement.startTime + movement.durationSec)/60]);
-    });
-    if (!time) return positions;
-    
-    const filteredPositions = positions.filter(pos => pos[1] <= time);
-    if (filteredPositions.length === 0) return null;
-    return filteredPositions[filteredPositions.length - 1][0];
-}
-
-function getLEADPMAPositions(state : MainStateObject, time : number = 0) {
-    const events = getRoleEvents(state, "LEADPMA");
-    if (events.length === 0) return null;
-    const creatorRole = getCreatorRole(state, "LEADPMA");
-    const initialPositionEvent = getUniqueEvent(state, "appoint-LeadPMA-title");
-    const creationTime = (initialPositionEvent.startTime + initialPositionEvent.durationSec)/60;
-    // We assume that the creator role is either "ACS" or "MCS"    
-    const creatorPosition = creatorRole === "ACS" ? getACSPositions(state, creationTime) : getMCSPositions(state, creationTime);
-    const movements = events.filter(event => event.actionNameKey === "move-actor-title");
-    const positions = [[creatorPosition, creationTime]];
-    movements.forEach(movement => {
-        positions.push([movement.location, (movement.startTime + movement.durationSec)/60]);
-    });
-    if (!time) return positions;
-    
-    const filteredPositions = positions.filter(pos => pos[1] <= time);
-    if (filteredPositions.length === 0) return null;
-    return filteredPositions[filteredPositions.length - 1][0];
-}
-
-
-export function getActorsPositions(state : MainStateObject, roles : Role[] | "All" = "All", time : number = 0) : Partial<Record<Role, any>>{
-    type PositionFunction = (state: MainStateObject, time: number) => any;
-    const actorsPositions : Partial<Record<Role, any>> = {};
-    const functionCaller : Record<Role, PositionFunction> = { AL: getALPositions, ACS: getACSPositions, MCS: getMCSPositions, EVASAN: getEVASANPositions, LEADPMA: getLEADPMAPositions };
-    let rolesToCheck : Role[] = roles === "All" ? ["AL", "ACS", "MCS", "EVASAN", "LEADPMA"] : roles;
-    rolesToCheck.forEach(role => {
-      const positionalInfo = functionCaller[role](state, time);
-      const cleanPosition : {position : string, time : number} = {position : "", time : 0};
-      const cleanPositions : {position : string, time : number}[] = [];
-      Array.isArray(positionalInfo) ?
-      positionalInfo.forEach(positionData => {
-        cleanPositions.push({position : positionData[0], time : positionData[1]})
-      })
-      : cleanPosition.position = positionalInfo 
-      cleanPosition.time = time;
-      actorsPositions[role] = cleanPosition.time ? cleanPosition : cleanPositions;
-    });
-    return actorsPositions;
-}
-
 export function getMETHANE(state : MainStateObject) : CategorisedEventList[] {
     const actions = getActionList(state);
     const methane : CategorisedEventList[] = []
@@ -288,7 +169,6 @@ E - ` + action.casuMessagePayload.resourceRequest[acsMcsResourceName] + ` ACS-MC
 }
 
 function getComms(state : MainStateObject) : CategorisedEventList[] {
-
     const actions = getActionList(state);
     const comms : CategorisedEventList[] = [];
 
@@ -501,10 +381,132 @@ export function getCategorisedEvents(state : MainStateObject, categories : { [ke
     return categorisedEvents;
 }
 
-function getAllCategorisedEvents(state : MainStateObject) {
+function getAllCategorisedEvents(state : MainStateObject) : CategorisedEventList[] {
     const categories = { METHANE: true, Comms: true, Evacs: true, PlayerMoves: true, Orders: true, Roles: true, Posts: true, Announcements: true, VehicleArrivals: true };
     return getCategorisedEvents(state, categories);
 }
+
+
+// Positions
+
+function getRoleEvents(state : MainStateObject, role : Role) : ActionBase[] {
+    const actions = getActionList(state);
+    const roleId = getOwnerId(state, role);
+    return actions.filter(action => action.ownerId === roleId);
+}
+
+function getALPositions(state : MainStateObject, time : number = 0) {
+    const events = getRoleEvents(state, "AL");
+    if (events.length === 0) return null;
+    const specialPositionChangeEvent = getUniqueEvent(state, "define-pcFront-title");
+    const movements = events.filter(event => event.actionNameKey === "move-actor-title");
+    const positions = [["ambulance", 0], [specialPositionChangeEvent.fixedMapEntity.id, (specialPositionChangeEvent.startTime + specialPositionChangeEvent.durationSec)/60]];
+    movements.forEach(movement => {
+        positions.push([movement.location, (movement.startTime + movement.durationSec)/60]);
+    });
+    if (!time) return positions;
+    
+    const filteredPositions = positions.filter(pos => pos[1] <= time);
+    if (filteredPositions.length === 0) return null;
+    return filteredPositions[filteredPositions.length - 1][0];
+}
+
+function getACSPositions(state : MainStateObject, time : number = 0) {
+    const events = getRoleEvents(state, "ACS");
+    if (events.length === 0) return null;
+    const initialPositionEvent = events.find(event => event.actionNameKey === "on-the-road");
+    const specialPositionChangeEvent = getUniqueEvent(state, "define-PC-title");
+    const movements = events.filter(event => event.actionNameKey === "move-actor-title");
+    const positions = [["pcFront", (initialPositionEvent.startTime + initialPositionEvent.durationSec)/60]];
+    specialPositionChangeEvent && positions.push([specialPositionChangeEvent.fixedMapEntity.id, (specialPositionChangeEvent.startTime + specialPositionChangeEvent.durationSec)/60]);
+    movements.forEach(movement => {
+        positions.push([movement.location, (movement.startTime + movement.durationSec)/60]);
+    });
+    if (!time) return positions;
+    
+    const filteredPositions = positions.filter(pos => pos[1] <= time);
+    if (filteredPositions.length === 0) return null;
+    return filteredPositions[filteredPositions.length - 1][0];
+}
+
+function getMCSPositions(state : MainStateObject, time : number = 0) {
+    const events = getRoleEvents(state, "MCS");
+    if (events.length === 0) return null;
+    const initialPositionEvent = events.find(event => event.actionNameKey === "on-the-road");
+    const specialPositionChangeEvent = getUniqueEvent(state, "define-PC-title");
+    const movements = events.filter(event => event.actionNameKey === "move-actor-title");
+    const positions = [["pcFront", (initialPositionEvent.startTime + initialPositionEvent.durationSec)/60]];
+    specialPositionChangeEvent && positions.push([specialPositionChangeEvent.fixedMapEntity.id, (specialPositionChangeEvent.startTime + specialPositionChangeEvent.durationSec)/60]);
+    movements.forEach(movement => {
+        positions.push([movement.location, (movement.startTime + movement.durationSec)/60]);
+    });
+    if (!time) return positions;
+
+    const filteredPositions = positions.filter(pos => pos[1] <= time);
+    if (filteredPositions.length === 0) return null;
+    return filteredPositions[filteredPositions.length - 1][0];
+}
+
+function getEVASANPositions(state : MainStateObject, time : number = 0) {
+    const events = getRoleEvents(state, "EVASAN");
+    if (events.length === 0) return null;
+    const creatorRole = getCreatorRole(state, "EVASAN");
+    const initialPositionEvent = getUniqueEvent(state, "appoint-EVASAN-title");
+    const creationTime = (initialPositionEvent.startTime + initialPositionEvent.durationSec)/60;
+    // We assume that the creator role is either "ACS" or "MCS"    
+    const creatorPosition = creatorRole === "ACS" ? getACSPositions(state, creationTime) : getMCSPositions(state, creationTime);
+    const movements = events.filter(event => event.actionNameKey === "move-actor-title");
+    const positions = [[creatorPosition, creationTime]];
+    movements.forEach(movement => {
+        positions.push([movement.location, (movement.startTime + movement.durationSec)/60]);
+    });
+    if (!time) return positions;
+    
+    const filteredPositions = positions.filter(pos => pos[1] <= time);
+    if (filteredPositions.length === 0) return null;
+    return filteredPositions[filteredPositions.length - 1][0];
+}
+
+function getLEADPMAPositions(state : MainStateObject, time : number = 0) {
+    const events = getRoleEvents(state, "LEADPMA");
+    if (events.length === 0) return null;
+    const creatorRole = getCreatorRole(state, "LEADPMA");
+    const initialPositionEvent = getUniqueEvent(state, "appoint-LeadPMA-title");
+    const creationTime = (initialPositionEvent.startTime + initialPositionEvent.durationSec)/60;
+    // We assume that the creator role is either "ACS" or "MCS"    
+    const creatorPosition = creatorRole === "ACS" ? getACSPositions(state, creationTime) : getMCSPositions(state, creationTime);
+    const movements = events.filter(event => event.actionNameKey === "move-actor-title");
+    const positions = [[creatorPosition, creationTime]];
+    movements.forEach(movement => {
+        positions.push([movement.location, (movement.startTime + movement.durationSec)/60]);
+    });
+    if (!time) return positions;
+    
+    const filteredPositions = positions.filter(pos => pos[1] <= time);
+    if (filteredPositions.length === 0) return null;
+    return filteredPositions[filteredPositions.length - 1][0];
+}
+
+export function getActorsPositions(state : MainStateObject, roles : Role[] | "All" = "All", time : number = 0) : Partial<Record<Role, any>>{
+    type PositionFunction = (state: MainStateObject, time: number) => any;
+    const actorsPositions : Partial<Record<Role, {position: string, time: number}[]>> = {};
+    const functionCaller : Record<Role, PositionFunction> = { AL: getALPositions, ACS: getACSPositions, MCS: getMCSPositions, EVASAN: getEVASANPositions, LEADPMA: getLEADPMAPositions };
+    let rolesToCheck : Role[] = roles === "All" ? ["AL", "ACS", "MCS", "EVASAN", "LEADPMA"] : roles;
+    rolesToCheck.forEach(role => {
+      const positionalInfo = functionCaller[role](state, time);
+      const cleanPosition : {position : string, time : number} = {position : "", time : 0};
+      const cleanPositions : {position : string, time : number}[] = [];
+      Array.isArray(positionalInfo) ?
+      positionalInfo.forEach(positionData => {
+        cleanPositions.push({position : positionData[0], time : positionData[1]})
+      })
+      : cleanPosition.position = positionalInfo 
+      cleanPosition.time = time;
+      actorsPositions[role] = cleanPosition.time ? [cleanPosition] : cleanPositions;
+    });
+    return actorsPositions;
+}
+
 
 // Stats
 

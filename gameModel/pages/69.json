@@ -122,7 +122,7 @@
                                 "name" : "Helicopter",
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "\"/pictosDashboard/Helicopter-Vincent_Le_Moign.png\"",
+                                  "content" : "\"/pictosDashboard/Helicopter-cynthia-gc.png\"",
                                   "language" : "TypeScript"
                                 },
                                 "style" : { }
@@ -718,7 +718,7 @@
                                                         "name" : "Helicopter icon",
                                                         "script" : {
                                                           "@class" : "Script",
-                                                          "content" : "\"/pictosDashboard/Helicopter-Vincent_Le_Moign.png\"",
+                                                          "content" : "\"/pictosDashboard/Helicopter-cynthia-gc.png\"",
                                                           "language" : "TypeScript"
                                                         },
                                                         "style" : { }
@@ -1296,7 +1296,7 @@
                                                             "name" : "Helicopter icon",
                                                             "script" : {
                                                               "@class" : "Script",
-                                                              "content" : "\"/pictosDashboard/Helicopter-Vincent_Le_Moign.png\"",
+                                                              "content" : "\"/pictosDashboard/Helicopter-cynthia-gc.png\"",
                                                               "language" : "TypeScript"
                                                             },
                                                             "style" : { }

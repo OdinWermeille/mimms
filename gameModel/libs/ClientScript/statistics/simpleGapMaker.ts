@@ -7,6 +7,7 @@ function getStyleClass(
   events: [Category, Event][],
   afterEnd: boolean
 ): string {
+  if (afterEnd) return 'noMinute';
   if (!events.length) return '';
   const index = Math.floor(twelfth / (12 / events.length));
   const [category, event] = events[index];

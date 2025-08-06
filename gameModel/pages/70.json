@@ -379,7 +379,7 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "removeStyle clickable",
+                            "className" : "removeStyle",
                             "label" : {
                               "@class" : "Script",
                               "content" : "Context.interface.state.filtersUnfolded ? \"Affichage▴\" : \"Affichage▾\";",
@@ -511,7 +511,7 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "alignLeft removeStyle clickable",
+                            "className" : "alignLeft removeStyle",
                             "label" : {
                               "@class" : "Script",
                               "content" : "Context.interface.state.teamsUnfolded[Context.team.id] ? Context.team.name +  \"▴\" : Context.team.name +  \"▾\";",

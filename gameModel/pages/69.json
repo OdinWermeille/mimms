@@ -490,7 +490,7 @@
                     },
                     "layoutStyle" : {
                       "padding" : "0",
-                      "width" : "calc(72vw - 30px)"
+                      "width" : "calc(72vw - 25px)"
                     },
                     "name" : "Skull",
                     "script" : {

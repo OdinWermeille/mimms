@@ -490,7 +490,7 @@
                     },
                     "layoutStyle" : {
                       "padding" : "0",
-                      "width" : "calc(72vw - 30px)"
+                      "width" : "calc(72vw - 25px)"
                     },
                     "name" : "Skull",
                     "script" : {
@@ -829,7 +829,7 @@
                                                       "className" : "oneVehicleType",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "(Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs || Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs || Context.nbrEvacsArrs.state.nbrHelicopterArrs)) + Number(!!Context.nbrEvacsArrs.state.nbrSmurArrs)) === 1;",
+                                                        "content" : "(Number(!!((Context.nbrEvacsArrs.state.nbrAmbulanceEvacs && Context.interface.state.categories.Evacs) || (Context.nbrEvacsArrs.state.nbrAmbulanceArrs && Context.interface.state.categories.VehicleArrivals))) + Number(!!((Context.nbrEvacsArrs.state.nbrHelicopterEvacs && Context.interface.state.categories.Evacs) || (Context.nbrEvacsArrs.state.nbrHelicopterArrs && Context.interface.state.categories.VehicleArrivals))) + Number(!!(Context.nbrEvacsArrs.state.nbrSmurArrs && Context.interface.state.categories.VehicleArrivals))) === 1;",
                                                         "language" : "typescript"
                                                       }
                                                     }, {
@@ -837,7 +837,7 @@
                                                       "className" : "twoVehicleTypes",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "(Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs || Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs || Context.nbrEvacsArrs.state.nbrHelicopterArrs)) + Number(!!Context.nbrEvacsArrs.state.nbrSmurArrs)) === 2;",
+                                                        "content" : "(Number(!!((Context.nbrEvacsArrs.state.nbrAmbulanceEvacs && Context.interface.state.categories.Evacs) || (Context.nbrEvacsArrs.state.nbrAmbulanceArrs && Context.interface.state.categories.VehicleArrivals))) + Number(!!((Context.nbrEvacsArrs.state.nbrHelicopterEvacs && Context.interface.state.categories.Evacs) || (Context.nbrEvacsArrs.state.nbrHelicopterArrs && Context.interface.state.categories.VehicleArrivals))) + Number(!!(Context.nbrEvacsArrs.state.nbrSmurArrs && Context.interface.state.categories.VehicleArrivals))) === 2;",
                                                         "language" : "typescript"
                                                       }
                                                     }, {
@@ -845,7 +845,7 @@
                                                       "className" : "threeVehicleTypes",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "(Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs || Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs || Context.nbrEvacsArrs.state.nbrHelicopterArrs)) + Number(!!Context.nbrEvacsArrs.state.nbrSmurArrs)) === 3;",
+                                                        "content" : "(Number(!!((Context.nbrEvacsArrs.state.nbrAmbulanceEvacs && Context.interface.state.categories.Evacs) || (Context.nbrEvacsArrs.state.nbrAmbulanceArrs && Context.interface.state.categories.VehicleArrivals))) + Number(!!((Context.nbrEvacsArrs.state.nbrHelicopterEvacs && Context.interface.state.categories.Evacs) || (Context.nbrEvacsArrs.state.nbrHelicopterArrs && Context.interface.state.categories.VehicleArrivals))) + Number(!!(Context.nbrEvacsArrs.state.nbrSmurArrs && Context.interface.state.categories.VehicleArrivals))) === 3;",
                                                         "language" : "typescript"
                                                       }
                                                     }, {
@@ -853,7 +853,7 @@
                                                       "className" : "oneRepeat",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs && Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs && Context.nbrEvacsArrs.state.nbrHelicopterArrs)) === 1;",
+                                                        "content" : "Number(!!((Context.nbrEvacsArrs.state.nbrAmbulanceEvacs && Context.interface.state.categories.Evacs) && (Context.nbrEvacsArrs.state.nbrAmbulanceArrs && Context.interface.state.categories.VehicleArrivals))) + Number(!!((Context.nbrEvacsArrs.state.nbrHelicopterEvacs && Context.interface.state.categories.Evacs) && (Context.nbrEvacsArrs.state.nbrHelicopterArrs && Context.interface.state.categories.VehicleArrivals))) === 1;",
                                                         "language" : "typescript"
                                                       }
                                                     }, {
@@ -861,7 +861,7 @@
                                                       "className" : "twoRepeats",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "Number(!!(Context.nbrEvacsArrs.state.nbrAmbulanceEvacs && Context.nbrEvacsArrs.state.nbrAmbulanceArrs)) + Number(!!(Context.nbrEvacsArrs.state.nbrHelicopterEvacs && Context.nbrEvacsArrs.state.nbrHelicopterArrs)) === 2;",
+                                                        "content" : "Number(!!((Context.nbrEvacsArrs.state.nbrAmbulanceEvacs && Context.interface.state.categories.Evacs) && (Context.nbrEvacsArrs.state.nbrAmbulanceArrs && Context.interface.state.categories.VehicleArrivals))) + Number(!!((Context.nbrEvacsArrs.state.nbrHelicopterEvacs && Context.interface.state.categories.Evacs) && (Context.nbrEvacsArrs.state.nbrHelicopterArrs && Context.interface.state.categories.VehicleArrivals))) === 2;",
                                                         "language" : "typescript"
                                                       }
                                                     }, {
